@@ -16,17 +16,17 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Rates from the earnings structure ($1 = ₦1,000). Editable in Filament → Task modules.
+        // Rates from the earnings structure ($1 = ₦1,000); at most ₦12,000 a day from tasks. Editable in Filament → Task modules.
         $modules = [
             ['key' => 'video', 'name' => 'Celebrity Video Streaming', 'description' => 'Watch partner video sessions of 20 seconds to 2 minutes.',
-                'min_seconds' => 20, 'max_seconds' => 120, 'reward_type' => 'PER_SECOND', 'reward_amount' => 100, 'daily_cap' => 12000, 'sort_order' => 1, 'require_focus' => true],
+                'min_seconds' => 20, 'max_seconds' => 120, 'reward_type' => 'PER_SECOND', 'reward_amount' => 100, 'daily_cap' => 4000, 'sort_order' => 1, 'require_focus' => true],
             ['key' => 'music', 'name' => 'Music Streaming', 'description' => 'Stream partner tracks in 60-second sessions.',
-                'min_seconds' => 60, 'max_seconds' => 60, 'reward_type' => 'FLAT', 'reward_amount' => 2000, 'daily_cap' => 6000, 'sort_order' => 2, 'require_focus' => true],
+                'min_seconds' => 60, 'max_seconds' => 60, 'reward_type' => 'FLAT', 'reward_amount' => 2000, 'daily_cap' => 2000, 'sort_order' => 2, 'require_focus' => true],
             ['key' => 'game', 'name' => 'Interactive Gameplay', 'description' => 'Play featured games with a countdown timer. Paid on playtime, win or lose.',
-                'min_seconds' => 30, 'max_seconds' => 3600, 'reward_type' => 'FLAT', 'reward_amount' => 6000, 'daily_cap' => 20000, 'sort_order' => 3, 'require_focus' => true],
+                'min_seconds' => 30, 'max_seconds' => 3600, 'reward_type' => 'FLAT', 'reward_amount' => 6000, 'daily_cap' => 6000, 'sort_order' => 3, 'require_focus' => true],
             // Meta tasks are done on other sites, so the timer keeps running when the member switches tabs
             ['key' => 'meta', 'name' => 'Meta Task Activities', 'description' => 'Complete simple online engagement and daily portal tasks.',
-                'min_seconds' => 30, 'max_seconds' => 3600, 'reward_type' => 'FLAT', 'reward_amount' => 3000, 'daily_cap' => 3000, 'sort_order' => 4, 'require_focus' => false],
+                'min_seconds' => 30, 'max_seconds' => 3600, 'reward_type' => 'FLAT', 'reward_amount' => 3000, 'daily_cap' => 3000, 'sort_order' => 4, 'require_focus' => false, 'active' => false],
         ];
         foreach ($modules as $m) {
             TaskModule::firstOrCreate(['key' => $m['key']], $m);

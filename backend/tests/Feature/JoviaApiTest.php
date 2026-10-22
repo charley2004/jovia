@@ -6,6 +6,7 @@ use App\Models\ContentItem;
 use App\Models\Listing;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\TaskModule;
 use App\Models\TaskSession;
 use App\Models\User;
 use App\Models\Withdrawal;
@@ -154,19 +155,28 @@ class JoviaApiTest extends TestCase
 
     public function test_daily_cap_limits_rewards(): void
     {
+        // At most ₦12,000 a day from tasks: video ₦4,000 + gameplay ₦6,000 + music ₦2,000, Meta off
         $u = $this->member();
-        for ($i = 0; $i < 3; $i++) {
-            $id = $this->actingAs($u)->postJson('/api/tasks/sessions', ['moduleKey' => 'music', 'durationSeconds' => 60])->assertCreated()->json('session.id');
-            $this->beat($u, $id, 60);
-            $this->actingAs($u)->postJson("/api/tasks/sessions/{$id}/complete")->assertOk();
+        $run = function (string $module, int $secs) use ($u) {
+            $id = $this->actingAs($u)->postJson('/api/tasks/sessions', ['moduleKey' => $module, 'durationSeconds' => $secs])->assertCreated()->json('session.id');
+            $this->beat($u, $id, $secs);
+
+            return $this->actingAs($u)->postJson("/api/tasks/sessions/{$id}/complete")->assertOk()->json('session.reward');
+        };
+        $this->assertSame(4000, $run('video', 120)); // a 2-minute video is worth ₦12,000 but pays only what's left of the cap
+        $this->assertSame(6000, $run('game', 30));
+        $this->assertSame(2000, $run('music', 60));
+        foreach (['video' => 20, 'game' => 30, 'music' => 60] as $module => $secs) {
+            $this->actingAs($u)->postJson('/api/tasks/sessions', ['moduleKey' => $module, 'durationSeconds' => $secs])->assertStatus(400);
         }
-        $this->assertSame(15000 + 6000, $this->balance($u));
-        $this->actingAs($u)->postJson('/api/tasks/sessions', ['moduleKey' => 'music', 'durationSeconds' => 60])->assertStatus(400);
+        $this->actingAs($u)->postJson('/api/tasks/sessions', ['moduleKey' => 'meta', 'durationSeconds' => 30])->assertNotFound();
+        $this->assertSame(15000 + 12000, $this->balance($u));
     }
 
     public function test_meta_task_with_proof_is_paid_after_review(): void
     {
         $u = $this->member();
+        TaskModule::whereKey('meta')->update(['active' => true]); // switched off by default until real tasks are added
         $task = ContentItem::create([
             'module_key' => 'meta', 'title' => 'Follow Jovia on Instagram', 'provider' => 'Jovia',
             'instructions' => 'Follow @jovianetwork, then enter your Instagram username.',

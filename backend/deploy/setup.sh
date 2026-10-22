@@ -5,13 +5,12 @@ set -euo pipefail
 source "$(dirname "$0")/common.sh"
 
 if [ ! -f .env ]; then
-    echo
+    # Values can be passed in (DB_NAME=… DB_USER=… DB_PASS=… bash setup.sh) or typed when asked
     echo "Database details (DirectAdmin → MySQL Management; names start with your username, e.g. nairaup1_jovia)"
-    read -rp "  Database name: " DB_NAME
-    read -rp "  Database user: " DB_USER
-    read -rsp "  Database password: " DB_PASS; echo
-    read -rp "  Admin email [admin@joviaplatform.ng]: " ADMIN
-    ADMIN=${ADMIN:-admin@joviaplatform.ng}
+    [ -n "${DB_NAME:-}" ] || read -rp "  Database name: " DB_NAME
+    [ -n "${DB_USER:-}" ] || read -rp "  Database user: " DB_USER
+    [ -n "${DB_PASS:-}" ] || { read -rsp "  Database password: " DB_PASS; echo; }
+    ADMIN=${ADMIN_EMAIL:-admin@joviaplatform.ng}
 
     cat > .env <<EOF
 APP_NAME="Jovia Network"

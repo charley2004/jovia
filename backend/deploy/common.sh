@@ -27,15 +27,11 @@ fi
 echo "Using $("$PHP" -r 'echo PHP_VERSION;') at $PHP"
 
 install_packages() {
-    local composer
-    if command -v composer >/dev/null 2>&1; then
-        composer="$(command -v composer)"
-    else
-        composer="$HOME/bin/composer.phar"
-        if [ ! -f "$composer" ]; then
-            mkdir -p "$HOME/bin"
-            curl -fsSL https://getcomposer.org/download/latest-stable/composer.phar -o "$composer"
-        fi
+    # Our own composer.phar, run with the PHP picked above (the host's `composer` may use an older PHP)
+    local composer="$HOME/bin/composer.phar"
+    if [ ! -f "$composer" ]; then
+        mkdir -p "$HOME/bin"
+        "$PHP" -r "copy('https://getcomposer.org/download/latest-stable/composer.phar', '$composer') || exit(1);"
     fi
     "$PHP" "$composer" install --no-dev --optimize-autoloader --no-interaction --no-progress
 }

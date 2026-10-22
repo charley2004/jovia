@@ -99,6 +99,30 @@ class JoviaApiTest extends TestCase
         $this->actingAs($new)->getJson('/api/me/notifications')->assertJsonPath('items.0.title', 'Your account is active');
     }
 
+    public function test_admin_can_activate_a_member_manually(): void
+    {
+        // Paid but never pressed "I've paid": a payment is recorded and approved
+        $sponsor = $this->member();
+        $quiet = $this->signup(['referral' => $sponsor->referral_code]);
+        $before = $this->balance($sponsor);
+        AdminActions::activateManually($quiet, 'Quiet Payer', 'KUDA-123');
+        $this->assertSame('ACTIVE', $quiet->fresh()->status);
+        $this->assertSame(15000, $this->balance($quiet));
+        $this->assertSame($before + 13000, $this->balance($sponsor));
+        $this->assertDatabaseHas('payments', ['user_id' => $quiet->id, 'status' => 'APPROVED', 'sender_name' => 'Quiet Payer', 'reference' => 'KUDA-123']);
+
+        // Already submitted: their own pending payment is approved, no second one is created
+        $submitted = $this->signup();
+        $this->actingAs($submitted)->postJson('/api/me/payments', ['senderName' => 'Their Name'])->assertCreated();
+        AdminActions::activateManually($submitted->fresh(), 'Ignored', null);
+        $this->assertSame(1, Payment::where('user_id', $submitted->id)->count());
+        $this->assertSame('APPROVED', Payment::where('user_id', $submitted->id)->value('status'));
+
+        // Can't activate twice
+        $this->expectException(\Symfony\Component\HttpKernel\Exception\HttpException::class);
+        AdminActions::activateManually($quiet->fresh(), 'Again', null);
+    }
+
     // ── Task timers ──
 
     private function beat(User $u, string $id, int $seconds): void

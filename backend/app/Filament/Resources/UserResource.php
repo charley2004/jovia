@@ -54,6 +54,16 @@ class UserResource extends Resource
                 ]),
             ])
             ->actions([
+                Action::make('activate')->icon('heroicon-o-check-badge')->color('success')
+                    ->visible(fn (User $u) => $u->role !== 'ADMIN' && in_array($u->status, ['PENDING_PAYMENT', 'AWAITING_VERIFICATION'], true))
+                    ->modalHeading(fn (User $u) => "Activate {$u->name}?")
+                    ->modalDescription('Only do this after confirming the activation fee is in your account. It activates the member and pays the welcome, referral and spillover bonuses.')
+                    ->form([
+                        TextInput::make('sender')->label('Paid from (name on the sending account)')->required()->minLength(2)->maxLength(120)
+                            ->default(fn (User $u) => $u->payments()->where('status', 'PENDING')->latest('id')->value('sender_name') ?? $u->name),
+                        TextInput::make('reference')->label('Transfer reference (optional)')->maxLength(120),
+                    ])
+                    ->action(fn (User $u, array $data) => Act::run(fn () => AdminActions::activateManually($u, $data['sender'], $data['reference'] ?? null), 'Member activated')),
                 ActionGroup::make([
                     Action::make('suspend')->icon('heroicon-o-no-symbol')->color('danger')
                         ->visible(fn (User $u) => $u->role !== 'ADMIN' && $u->status !== 'SUSPENDED')

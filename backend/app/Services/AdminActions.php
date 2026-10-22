@@ -32,6 +32,26 @@ class AdminActions
         Notifier::sendAll($notices);
     }
 
+    // Activate a member straight from the Members list, e.g. when they paid but never
+    // pressed "I've paid" on the dashboard. Uses their pending payment if there is one.
+    public static function activateManually(User $user, string $senderName, ?string $reference): void
+    {
+        if ($user->role === 'ADMIN' || ! in_array($user->status, ['PENDING_PAYMENT', 'AWAITING_VERIFICATION'], true)) {
+            abort(400, 'Only members who are not yet activated can be activated.');
+        }
+        $payment = $user->payments()->where('status', 'PENDING')->latest('id')->first()
+            ?? DB::transaction(function () use ($user, $senderName, $reference) {
+                $p = Payment::create([
+                    'user_id' => $user->id, 'amount' => Settings::get('activationFee'), 'sender_name' => trim($senderName),
+                    'reference' => $reference ?: null, 'note' => 'Recorded by admin',
+                ])->refresh();
+                $user->update(['status' => 'AWAITING_VERIFICATION']);
+
+                return $p;
+            });
+        self::approvePayment($payment);
+    }
+
     public static function rejectPayment(Payment $payment, ?string $note): void
     {
         DB::transaction(function () use ($payment, $note) {

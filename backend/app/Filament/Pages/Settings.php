@@ -6,7 +6,6 @@ use App\Services\Settings as SettingsStore;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -30,7 +29,6 @@ class Settings extends Page implements HasForms
     public function mount(): void
     {
         $s = SettingsStore::all();
-        $s['spilloverLevels'] = array_map('strval', $s['spilloverLevels']);
         $this->form->fill($s);
     }
 
@@ -48,13 +46,6 @@ class Settings extends Page implements HasForms
                     TextInput::make('activationBankName')->label('Bank name')->maxLength(100),
                     TextInput::make('activationAccountName')->label('Account name')->maxLength(120),
                     TextInput::make('activationAccountNumber')->label('Account number')->maxLength(32),
-                ]),
-            ]),
-            Section::make('Referrals')->schema([
-                Grid::make(2)->schema([
-                    $money('referralBonus', 'Direct referral bonus'),
-                    TagsInput::make('spilloverLevels')->label('Spillover per level, from level 2 (₦)')
-                        ->nestedRecursiveRules(['integer', 'min:0'])->placeholder('Add an amount'),
                 ]),
             ]),
             Section::make('Rewards')->schema([

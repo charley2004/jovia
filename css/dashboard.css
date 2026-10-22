@@ -155,11 +155,6 @@ input[type="range"] { width: 100%; accent-color: var(--gold); }
 .listing-body .meta { color: var(--text-3); font-size: 12.5px; margin-top: 4px; }
 .empty-block { grid-column: 1 / -1; padding: 28px; text-align: center; color: var(--text-2); }
 
-/* ── Referrals ── */
-.ref-box { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; padding: 20px 22px; margin-bottom: 18px; }
-.ref-link { font-family: var(--ff-head); font-weight: 600; color: var(--gold); margin-top: 4px; overflow-wrap: anywhere; }
-.ref-box .icon { width: 16px; height: 16px; }
-
 /* ── Friday Bonus ── */
 .fbr-banner { display: flex; align-items: center; gap: 12px; padding: 14px 18px; margin-bottom: 18px; border-radius: var(--radius-sm); background: linear-gradient(100deg, rgba(124,58,237,0.35), rgba(245,184,15,0.25)); border: 1px solid rgba(245,184,15,0.4); }
 .fbr-banner .icon { color: var(--gold); }

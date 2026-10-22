@@ -57,7 +57,7 @@ class PaymentResource extends Resource
                     ->visible(fn (Payment $p) => in_array($p->status, ['PENDING', 'REJECTED'], true))
                     ->requiresConfirmation()
                     ->modalHeading('Approve this payment?')
-                    ->modalDescription('Only approve after confirming the money is in your account. This activates the member and pays the welcome, referral and spillover bonuses.')
+                    ->modalDescription('Only approve after confirming the money is in your account. This activates the member and pays the Welcome Smash Bonus.')
                     ->action(fn (Payment $p) => Act::run(fn () => AdminActions::approvePayment($p), 'Member activated')),
                 Action::make('reject')->icon('heroicon-o-x-mark')->color('danger')
                     ->visible(fn (Payment $p) => $p->status === 'PENDING')

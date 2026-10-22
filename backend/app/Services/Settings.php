@@ -11,9 +11,6 @@ class Settings
     public const DEFAULTS = [
         'activationFee' => 15000,
         'welcomeBonus' => 15000,
-        'referralBonus' => 13000,
-        // Spillover credits up the referral chain: index 0 = level 2, index 1 = level 3, ...
-        'spilloverLevels' => [600, 500, 400],
         'marketplaceReward' => 3000,
         'fbrReward' => 10000,
         'fbrMaxWinners' => 10,

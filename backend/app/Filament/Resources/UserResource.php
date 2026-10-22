@@ -37,14 +37,12 @@ class UserResource extends Resource
         return $table
             ->defaultSort('created_at', 'desc')
             ->columns([
-                TextColumn::make('email')->label('Member')->searchable(['email', 'first_name', 'last_name', 'phone', 'referral_code'])
+                TextColumn::make('email')->label('Member')->searchable(['email', 'first_name', 'last_name', 'phone'])
                     ->description(fn (User $u) => $u->name.' · '.$u->phone.' · '.$u->country),
                 TextColumn::make('status')->badge()->color(fn (string $state) => match ($state) {
                     'ACTIVE' => 'success', 'AWAITING_VERIFICATION' => 'warning', 'SUSPENDED' => 'danger', default => 'gray',
                 }),
                 TextColumn::make('balance')->formatStateUsing(fn ($state) => Act::naira($state))->sortable(),
-                TextColumn::make('referral_code')->label('Code')->copyable(),
-                TextColumn::make('referredBy.email')->label('Referred by')->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('role')->badge()->color(fn (string $state) => $state === 'ADMIN' ? 'primary' : 'gray')->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')->label('Joined')->date()->sortable(),
             ])
@@ -57,7 +55,7 @@ class UserResource extends Resource
                 Action::make('activate')->icon('heroicon-o-check-badge')->color('success')
                     ->visible(fn (User $u) => $u->role !== 'ADMIN' && in_array($u->status, ['PENDING_PAYMENT', 'AWAITING_VERIFICATION'], true))
                     ->modalHeading(fn (User $u) => "Activate {$u->name}?")
-                    ->modalDescription('Only do this after confirming the activation fee is in your account. It activates the member and pays the welcome, referral and spillover bonuses.')
+                    ->modalDescription('Only do this after confirming the activation fee is in your account. It activates the member and pays the Welcome Smash Bonus.')
                     ->form([
                         TextInput::make('sender')->label('Paid from (name on the sending account)')->required()->minLength(2)->maxLength(120)
                             ->default(fn (User $u) => $u->payments()->where('status', 'PENDING')->latest('id')->value('sender_name') ?? $u->name),

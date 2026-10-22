@@ -34,7 +34,6 @@ Route::middleware(['auth:sanctum', 'member'])->group(function () {
         Route::get('/withdrawals', 'withdrawals');
         Route::post('/withdrawals', 'withdraw')->middleware('active');
         Route::get('/transactions', 'transactions');
-        Route::get('/referrals', 'referrals');
         Route::get('/notifications', 'notifications');
         Route::post('/notifications/read', 'readNotifications');
         Route::put('/profile', 'profile');

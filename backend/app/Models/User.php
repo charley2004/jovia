@@ -5,7 +5,6 @@ namespace App\Models;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
 use Filament\Panel;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -48,16 +47,6 @@ class User extends Authenticatable implements FilamentUser, HasName
         return $this->first_name.' '.mb_substr($this->last_name, 0, 1).'.';
     }
 
-    public function referredBy(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'referred_by_id');
-    }
-
-    public function referrals(): HasMany
-    {
-        return $this->hasMany(User::class, 'referred_by_id');
-    }
-
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);
@@ -90,7 +79,6 @@ class User extends Authenticatable implements FilamentUser, HasName
             'country' => $this->country,
             'role' => $this->role,
             'status' => $this->status,
-            'referralCode' => $this->referral_code,
             'balance' => $this->balance,
             'bank' => $this->account_number ? [
                 'bankName' => $this->bank_name,

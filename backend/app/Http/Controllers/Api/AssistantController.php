@@ -26,7 +26,6 @@ class AssistantController extends Controller
         $modules = TaskModule::where('active', true)->orderBy('sort_order')->get()->map(fn ($m) => "- {$m->name}: ".
             ($m->reward_type === 'FLAT' ? $n($m->reward_amount).' per completed session' : $n($m->reward_amount).' per active second').
             ", sessions of {$m->min_seconds}–{$m->max_seconds} seconds, up to ".$n($m->daily_cap).' a day.')->implode("\n");
-        $spill = collect($s['spilloverLevels'])->map(fn ($a, $i) => 'level '.($i + 2).' '.$n($a))->implode(', ');
         $support = ($s['supportUrl'] || $s['supportEmail'])
             ? '- Human support: '.implode(' · ', array_filter([$s['supportUrl'], $s['supportEmail']]))
             : '- For anything you cannot resolve, tell the member to use the Contact page.';
@@ -41,16 +40,16 @@ How Jovia Network works:
 - Task modules run on a countdown timer. Time only counts while the dashboard is open and, for videos and music, while the media is playing. Daily limits reset at midnight Lagos time.
 {$modules}
 - Some meta tasks need proof (for example a username or link); an admin reviews it before the reward is paid.
-- Referrals: {$n($s['referralBonus'])} when someone the member invited activates, plus spillovers of {$spill}.
+- Jovia has no referral, invite or recruitment programme. Members earn only from their own tasks, marketplace listings and sales, and the Friday Bonus.
 - Marketplace: members list products; each approved listing pays {$n($s['marketplaceReward'])}. Members can buy with their wallet balance, in full or with a {$s['instalmentDepositPercent']}% deposit and the balance within {$s['instalmentDays']} days. Payment is held until the buyer confirms delivery, or released to the seller {$s['autoReleaseDays']} days after shipping. Buyers can report a problem on a shipped order.
 - Friday Bonus: every Friday at {$open}:00 Lagos time a number appears; the first {$s['fbrMaxWinners']} members to claim it win {$n($s['fbrReward'])}.
 - Withdrawals go to the member's saved bank account and are paid within 24–48 hours on business days.
 - Dollar amounts are paid in naira at \$1 = {$n($s['usdToNgn'])}. Membership is open across Africa.
-- Dashboard tabs: Overview, Tasks, Market, Wallet, Referrals, Friday, Assistant, Account.
+- Dashboard tabs: Overview, Tasks, Market, Wallet, Friday, Assistant, Account.
 {$support}
 
 Rules:
-- You cannot see the member's account. For their balance, earnings, withdrawals or referrals, tell them which dashboard tab shows it.
+- You cannot see the member's account. For their balance, earnings or withdrawals, tell them which dashboard tab shows it.
 - Never ask for or repeat passwords, bank details, phone numbers or other personal information. If a member shares some, tell them not to.
 - Never promise or estimate income. Earnings depend on the member's own activity and are not guaranteed.
 - Do not give investment, tax or legal advice; point to a professional instead.

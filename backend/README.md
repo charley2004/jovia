@@ -13,14 +13,14 @@ One Laravel app runs everything:
 | Area | How it works |
 | --- | --- |
 | Accounts | Sign-up (all 54 African countries), sign-in by email or phone, session cookie, hashed passwords, password reset by email (when a mailer is set) or by an admin |
-| Activation | Member pays by bank transfer and submits it; admin approves in Filament → account active, ₦15,000 Welcome Bonus, ₦13,000 to the direct referrer, spillovers up the chain |
+| Activation | Member pays by bank transfer and submits it; admin approves in Filament (or activates the member from the Members list) → account active, ₦15,000 Welcome Bonus |
 | Refunds | A member whose account was never activated requests a refund from the dashboard; admin marks it refunded |
 | Task timers | Video, music, gameplay and meta modules. Time only counts while the dashboard is open (heartbeats every 5 s); YouTube/Spotify time only while playing; games pause after 20 s idle. The server decides when a session is complete; daily caps reset at midnight Lagos time |
 | Meta tasks | Instructions + link; tasks marked "requires proof" reserve the reward and pay when an admin approves |
 | Marketplace | Listings with photos (admin approval pays ₦3,000). Buy with the wallet in full or "pay small-small" (50% deposit, balance within 14 days). Money is held until the buyer confirms delivery; auto-released 7 days after shipping; overdue instalments are cancelled and the deposit returned. Disputes resolved in Filament |
 | Friday Bonus | Each Friday at 12:00 Lagos time a number appears; the first 10 members to claim win ₦10,000 |
 | Wallet | Ledger of every credit and debit; withdrawals to a saved bank account; admin marks paid or rejects (rejected amounts go back to the balance) |
-| Notifications | Dashboard bell for every approval, payout, sale and referral; also emailed when a mailer is configured |
+| Notifications | Dashboard bell for every approval, payout and sale; also emailed when a mailer is configured |
 | AI Assistant | Google Gemini (free tier, `gemini-3.8-flash`) answers members' questions from the live platform rules. Free-tier prompts may be used by Google, so no names, contact details or balances are ever sent. Needs a free `GEMINI_API_KEY` from aistudio.google.com; 40 messages per member per day |
 
 ### Filament admin (`/admin`)
@@ -29,7 +29,7 @@ One Laravel app runs everything:
 | --- | --- |
 | Queues | Activation payments (approve / reject / mark refunded) · Withdrawals (mark paid / reject) · Marketplace listings · Task proofs · Orders & disputes (refund buyer / pay seller) |
 | Members | Search, suspend / restore, reset password, adjust balance |
-| Platform | Task modules (rates, limits, focus rule) with their content · Settings (fees, bonuses, activation bank account, referral and spillover amounts, Friday Bonus, marketplace terms, assistant limit, support links) |
+| Platform | Task modules (rates, limits, focus rule) with their content · Settings (fees, bonuses, activation bank account, Friday Bonus, marketplace terms, assistant limit, support links) |
 
 All business logic lives in `app/Services` (`Wallet`, `Orders`, `AdminActions`); controllers and Filament actions both call it.
 

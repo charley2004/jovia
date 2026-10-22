@@ -80,35 +80,31 @@ class JoviaApiTest extends TestCase
         $this->assertNotEquals('secret123', $u->fresh()->password);
     }
 
-    public function test_tasks_need_activation_and_activation_pays_bonuses_up_the_chain(): void
+    public function test_tasks_need_activation_and_activation_pays_only_the_welcome_bonus(): void
     {
-        $l1 = $this->member();
-        $l2 = $this->member(['referral' => $l1->referral_code]);
-        $l3 = $this->member(['referral' => $l2->referral_code]);
-        $new = $this->signup(['referral' => $l3->referral_code]);
+        $existing = $this->member();
+        // A cached sign-up page or an old ?ref= link may still send a referral code: it is ignored
+        $new = $this->signup(['referral' => 'OLDCODE1']);
 
         $this->actingAs($new)->getJson('/api/tasks/modules')->assertStatus(403);
-        $before = [$this->balance($l1), $this->balance($l2), $this->balance($l3)];
+        $before = $this->balance($existing);
         $this->activate($new);
 
         $this->assertSame(15000, $this->balance($new));
-        $this->assertSame($before[2] + 13000, $this->balance($l3)); // direct referral
-        $this->assertSame($before[1] + 600, $this->balance($l2));   // level 2 spillover
-        $this->assertSame($before[0] + 500, $this->balance($l1));   // level 3 spillover
-        $this->actingAs($l3)->getJson('/api/me/referrals')->assertJsonPath('direct.0.status', 'ACTIVE');
+        $this->assertSame($before, $this->balance($existing)); // nobody else is paid
+        $this->assertSame(['WELCOME_BONUS'], $new->transactions()->pluck('type')->all());
+        $this->actingAs($new)->getJson('/api/me/referrals')->assertNotFound();
+        $this->actingAs($new)->getJson('/api/auth/me')->assertJsonMissingPath('user.referralCode');
         $this->actingAs($new)->getJson('/api/me/notifications')->assertJsonPath('items.0.title', 'Your account is active');
     }
 
     public function test_admin_can_activate_a_member_manually(): void
     {
         // Paid but never pressed "I've paid": a payment is recorded and approved
-        $sponsor = $this->member();
-        $quiet = $this->signup(['referral' => $sponsor->referral_code]);
-        $before = $this->balance($sponsor);
+        $quiet = $this->signup();
         AdminActions::activateManually($quiet, 'Quiet Payer', 'KUDA-123');
         $this->assertSame('ACTIVE', $quiet->fresh()->status);
         $this->assertSame(15000, $this->balance($quiet));
-        $this->assertSame($before + 13000, $this->balance($sponsor));
         $this->assertDatabaseHas('payments', ['user_id' => $quiet->id, 'status' => 'APPROVED', 'sender_name' => 'Quiet Payer', 'reference' => 'KUDA-123']);
 
         // Already submitted: their own pending payment is approved, no second one is created
@@ -171,11 +167,15 @@ class JoviaApiTest extends TestCase
     public function test_meta_task_with_proof_is_paid_after_review(): void
     {
         $u = $this->member();
-        $task = ContentItem::where('requires_proof', true)->first();
+        $task = ContentItem::create([
+            'module_key' => 'meta', 'title' => 'Follow Jovia on Instagram', 'provider' => 'Jovia',
+            'instructions' => 'Follow @jovianetwork, then enter your Instagram username.',
+            'requires_proof' => true, 'proof_label' => 'your Instagram username',
+        ]);
         $id = $this->actingAs($u)->postJson('/api/tasks/sessions', ['moduleKey' => 'meta', 'durationSeconds' => 30, 'contentId' => $task->id])->json('session.id');
         $this->beat($u, $id, 30);
         $this->actingAs($u)->postJson("/api/tasks/sessions/{$id}/complete", [])->assertStatus(400);
-        $this->actingAs($u)->postJson("/api/tasks/sessions/{$id}/complete", ['proof' => 'Lagos Hustlers WhatsApp group'])
+        $this->actingAs($u)->postJson("/api/tasks/sessions/{$id}/complete", ['proof' => '@amaka.n'])
             ->assertOk()->assertJsonPath('pendingReview', true)->assertJsonPath('session.reward', 3000);
         $this->assertSame(15000, $this->balance($u));
         $meta = collect($this->actingAs($u)->getJson('/api/tasks/modules')->json('modules'))->firstWhere('key', 'meta');

@@ -28,19 +28,6 @@ class AuthController extends Controller
         return strlen($tail) === 9 ? User::where('phone', 'like', '%'.$tail)->first() : null;
     }
 
-    private static function newReferralCode(): string
-    {
-        $alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-        do {
-            $code = '';
-            for ($i = 0; $i < 8; $i++) {
-                $code .= $alphabet[random_int(0, strlen($alphabet) - 1)];
-            }
-        } while (User::where('referral_code', $code)->exists());
-
-        return $code;
-    }
-
     public function signup(Request $request)
     {
         $data = $this->check($request, [
@@ -55,7 +42,6 @@ class AuthController extends Controller
             }],
             'country' => ['required', Rule::in(Countries::AFRICA)],
             'password' => 'required|string|min:8|max:128',
-            'referral' => 'nullable|string|max:16',
             'terms' => 'accepted',
         ], [
             'firstName.required' => 'Enter your first name.',
@@ -74,14 +60,6 @@ class AuthController extends Controller
         if (self::findByPhone($data['phone'])) {
             abort(409, 'An account with this phone number already exists.');
         }
-        $referredBy = null;
-        if (! empty($data['referral'])) {
-            $referrer = User::where('referral_code', strtoupper(trim($data['referral'])))->first();
-            if (! $referrer) {
-                abort(400, 'That referral code was not found. Check it or leave it blank.');
-            }
-            $referredBy = $referrer->id;
-        }
 
         $user = User::create([
             'first_name' => trim($data['firstName']),
@@ -90,8 +68,6 @@ class AuthController extends Controller
             'phone' => self::digits($data['phone']),
             'country' => $data['country'],
             'password' => $data['password'],
-            'referral_code' => self::newReferralCode(),
-            'referred_by_id' => $referredBy,
         ]);
         Auth::guard('web')->login($user, true);
         $request->session()->regenerate();

@@ -76,7 +76,7 @@
     <div class="gate-icon"><svg class="icon"><use href="#i-lock"/></svg></div>
     <span class="eyebrow">Step 1 of 2 · Activate</span>
     <h2>Activate your account</h2>
-    <p class="muted">Hi <strong data-first-name>there</strong>. A one-time <strong data-fee>₦15,000</strong> activation unlocks every task module, the marketplace, referrals and your <strong data-bonus>₦15,000</strong> Welcome Smash Bonus.</p>
+    <p class="muted">Hi <strong data-first-name>there</strong>. A one-time <strong data-fee>₦15,000</strong> activation unlocks every task module, the marketplace and your <strong data-bonus>₦15,000</strong> Welcome Smash Bonus.</p>
     <p class="gate-alert" id="gateRejected" hidden></p>
 
     <div class="bank-box">
@@ -131,7 +131,6 @@
     <a href="#tasks" data-tab="tasks"><svg class="icon"><use href="#i-clock"/></svg><span>Tasks</span></a>
     <a href="#marketplace" data-tab="marketplace"><svg class="icon"><use href="#i-bag"/></svg><span>Market</span></a>
     <a href="#wallet" data-tab="wallet"><svg class="icon"><use href="#i-wallet"/></svg><span>Wallet</span></a>
-    <a href="#referrals" data-tab="referrals"><svg class="icon"><use href="#i-users"/></svg><span>Referrals</span></a>
     <a href="#fbr" data-tab="fbr"><svg class="icon"><use href="#i-star"/></svg><span>Friday</span></a>
     <a href="#assistant" data-tab="assistant"><svg class="icon"><use href="#i-chat"/></svg><span>Assistant</span></a>
     <a href="#account" data-tab="account"><svg class="icon"><use href="#i-user"/></svg><span>Account</span></a>
@@ -268,7 +267,7 @@
     <section class="tab" id="tab-assistant" hidden>
       <div class="tab-head">
         <h2>Jovia AI Assistant</h2>
-        <p class="muted">Ask anything about tasks, payments, withdrawals, referrals or the marketplace. <span id="aiRemaining"></span></p>
+        <p class="muted">Ask anything about tasks, payments, withdrawals or the marketplace. <span id="aiRemaining"></span></p>
       </div>
       <div class="card chat">
         <div class="chat-log" id="chatLog" aria-live="polite"></div>
@@ -319,29 +318,6 @@
       <h3 class="block-title">All transactions</h3>
       <div class="card list-card"><ul class="tx-list" id="txList"></ul></div>
       <div class="pager"><button type="button" class="btn btn-ghost btn-sm" id="txPrev">← Newer</button><span id="txPage"></span><button type="button" class="btn btn-ghost btn-sm" id="txNext">Older →</button></div>
-    </section>
-
-    <!-- REFERRALS -->
-    <section class="tab" id="tab-referrals" hidden>
-      <div class="tab-head">
-        <h2>Referrals</h2>
-        <p class="muted">Earn <strong data-ref-bonus>₦13,000</strong> when someone you invite activates, plus spillover credits from your wider network.</p>
-      </div>
-      <div class="card ref-box">
-        <div>
-          <span class="muted small">Your referral link</span>
-          <div class="ref-link" id="refLink">—</div>
-        </div>
-        <button type="button" class="btn btn-primary btn-sm" id="copyRef"><svg class="icon"><use href="#i-copy"/></svg>Copy link</button>
-      </div>
-      <div class="stat-grid three">
-        <div class="card stat"><span>Direct referrals</span><strong id="rCount">0</strong></div>
-        <div class="card stat"><span>Referral earnings</span><strong id="rEarned">₦0</strong></div>
-        <div class="card stat"><span>Spillover earnings</span><strong id="rSpill">₦0</strong></div>
-      </div>
-      <p class="muted small" id="spillNote"></p>
-      <h3 class="block-title">People you invited</h3>
-      <div class="card list-card"><ul class="tx-list" id="refList"></ul></div>
     </section>
 
     <!-- FRIDAY BONUS -->

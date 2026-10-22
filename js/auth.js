@@ -22,10 +22,6 @@
   const submit = form.querySelector('.btn-submit');
   const params = new URLSearchParams(window.location.search);
 
-  // Referral links look like signup.html?ref=CODE
-  const refInput = form.querySelector('#referral');
-  if (refInput && params.get('ref')) refInput.value = params.get('ref').toUpperCase();
-
   // Already signed in? Skip the sign-in / sign-up forms.
   if (form.id === 'signin-form' || form.id === 'signup-form') {
     JoviaAPI.get('/auth/me').then((d) => { window.location.href = d.user.role === 'ADMIN' ? '/admin' : 'dashboard.html'; }, () => {});

@@ -36,9 +36,6 @@ class DatabaseSeeder extends Seeder
         $content = [
             ['module_key' => 'game', 'title' => 'Memory Match', 'url' => '/games/memory.html', 'provider' => 'Jovia Arcade'],
             ['module_key' => 'game', 'title' => 'Snake', 'url' => '/games/snake.html', 'provider' => 'Jovia Arcade'],
-            ['module_key' => 'meta', 'title' => 'Share your referral link', 'provider' => 'Jovia',
-                'instructions' => 'Copy your referral link from the Referrals tab and share it in a WhatsApp status, group or social post. Keep the timer running while you do it, then tell us where you shared it.',
-                'requires_proof' => true, 'proof_label' => 'where you shared it (group name, page or post link)'],
         ];
         foreach ($content as $c) {
             ContentItem::firstOrCreate(['module_key' => $c['module_key'], 'title' => $c['title']], $c);
@@ -53,7 +50,7 @@ class DatabaseSeeder extends Seeder
             $password = env('ADMIN_PASSWORD') ?: Str::password(14, symbols: false);
             User::create([
                 'first_name' => 'Jovia', 'last_name' => 'Admin', 'email' => $email, 'phone' => '000000000', 'country' => 'Nigeria',
-                'password' => $password, 'role' => 'ADMIN', 'status' => 'ACTIVE', 'referral_code' => 'JOVIAHQ', 'activated_at' => now(),
+                'password' => $password, 'role' => 'ADMIN', 'status' => 'ACTIVE', 'activated_at' => now(),
             ]);
             $this->command?->info("Admin created: {$email}".(env('ADMIN_PASSWORD') ? '' : " / temporary password: {$password}"));
         }

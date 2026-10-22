@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Hash;
 
 class MemberController extends Controller
 {
-    private const EARNING_TYPES = ['WELCOME_BONUS', 'TASK', 'REFERRAL', 'SPILLOVER', 'MARKETPLACE', 'FBR', 'ADJUSTMENT', 'SALE'];
+    private const EARNING_TYPES = ['WELCOME_BONUS', 'TASK', 'MARKETPLACE', 'FBR', 'ADJUSTMENT', 'SALE'];
 
     private static function payment(?Payment $p): ?array
     {
@@ -55,14 +55,11 @@ class MemberController extends Controller
                 'totalEarned' => (int) $earnings->sum('amount'),
                 'totalWithdrawn' => (int) $u->withdrawals()->where('status', 'PAID')->sum('amount'),
                 'pendingWithdrawals' => (int) $u->withdrawals()->where('status', 'PENDING')->sum('amount'),
-                'directReferrals' => $u->referrals()->count(),
             ],
             'recent' => $u->transactions()->latest('id')->limit(8)->get()->map(fn ($t) => self::tx($t)),
             'config' => [
                 'activationFee' => $s['activationFee'],
                 'welcomeBonus' => $s['welcomeBonus'],
-                'referralBonus' => $s['referralBonus'],
-                'spilloverLevels' => $s['spilloverLevels'],
                 'marketplaceReward' => $s['marketplaceReward'],
                 'fbrReward' => $s['fbrReward'],
                 'minWithdrawal' => $s['minWithdrawal'],
@@ -200,21 +197,6 @@ class MemberController extends Controller
             'items' => $q->latest('id')->skip(($page - 1) * 20)->take(20)->get()->map(fn ($t) => self::tx($t)),
             'page' => $page,
             'pages' => max(1, (int) ceil($total / 20)),
-        ]);
-    }
-
-    // ── Referrals ──
-    public function referrals(Request $request)
-    {
-        $u = $request->user();
-
-        return response()->json([
-            'code' => $u->referral_code,
-            'referralEarned' => (int) $u->transactions()->where('type', 'REFERRAL')->sum('amount'),
-            'spilloverEarned' => (int) $u->transactions()->where('type', 'SPILLOVER')->sum('amount'),
-            'direct' => $u->referrals()->latest('id')->get()->map(fn ($d) => [
-                'name' => $d->shortName(), 'status' => $d->status, 'joinedAt' => $d->created_at, 'activatedAt' => $d->activated_at,
-            ]),
         ]);
     }
 

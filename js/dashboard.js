@@ -108,7 +108,6 @@
     fill('data-first-name', u.firstName);
     fill('data-fee', naira(c.activationFee));
     fill('data-bonus', naira(c.welcomeBonus));
-    fill('data-ref-bonus', naira(c.referralBonus));
     fill('data-mp-reward', naira(c.marketplaceReward) + ' (' + usd(c.marketplaceReward) + ')');
     fill('data-fbr-reward', naira(c.fbrReward) + ' (' + usd(c.fbrReward) + ')');
     loadNotifications();
@@ -210,13 +209,13 @@
   });
 
   // ── Tabs ──
-  var TABS = ['overview', 'tasks', 'marketplace', 'wallet', 'referrals', 'fbr', 'assistant', 'account'];
+  var TABS = ['overview', 'tasks', 'marketplace', 'wallet', 'fbr', 'assistant', 'account'];
   function showTab(name) {
     if (TABS.indexOf(name) === -1) name = 'overview';
     state.tab = name;
     TABS.forEach(function (t) { $('tab-' + t).hidden = t !== name; });
     document.querySelectorAll('.app-nav a').forEach(function (a) { a.classList.toggle('active', a.dataset.tab === name); });
-    ({ overview: loadOverview, tasks: loadTasks, marketplace: loadMarketplace, wallet: loadWallet, referrals: loadReferrals, fbr: loadFbr, assistant: loadAssistant, account: loadAccount })[name]();
+    ({ overview: loadOverview, tasks: loadTasks, marketplace: loadMarketplace, wallet: loadWallet, fbr: loadFbr, assistant: loadAssistant, account: loadAccount })[name]();
     window.scrollTo(0, 0);
   }
   window.addEventListener('hashchange', function () {
@@ -906,31 +905,6 @@
     });
   });
 
-  // ── Referrals ──
-  function loadReferrals() {
-    var link = location.origin + location.pathname.replace(/dashboard\.html$/, '') + 'signup.html?ref=' + state.data.user.referralCode;
-    $('refLink').textContent = link;
-    var levels = state.data.config.spilloverLevels || [];
-    $('spillNote').textContent = levels.length
-      ? 'Spillovers: ' + levels.map(function (amt, i) { return 'level ' + (i + 2) + ' ' + naira(amt); }).join(', ') + ' — paid when people further down your network activate.'
-      : '';
-    api.get('/me/referrals').then(function (r) {
-      $('rCount').textContent = r.direct.length;
-      $('rEarned').textContent = naira(r.referralEarned);
-      $('rSpill').textContent = naira(r.spilloverEarned);
-      $('refList').innerHTML = r.direct.length ? r.direct.map(function (p) {
-        return '<li><div class="t-main"><div class="t-title">' + esc(p.name) + '</div><div class="t-sub">Joined ' + when(p.joinedAt) + '</div></div>' + chip(p.status) + '</li>';
-      }).join('') : emptyRow('No referrals yet. Share your link to start earning.');
-    });
-  }
-  $('copyRef').addEventListener('click', function () {
-    var text = $('refLink').textContent;
-    (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject()).then(
-      function () { toast('Referral link copied.'); },
-      function () { prompt('Copy your referral link:', text); }
-    );
-  });
-
   // ── Friday Bonus ──
   function loadFbr() {
     var card = $('fbrCard');
@@ -966,7 +940,7 @@
   function renderChat(typing) {
     var log = $('chatLog');
     var bubbles = state.chat.map(function (m) { return '<div class="bubble ' + (m.role === 'user' ? 'me' : 'ai') + '">' + esc(m.content) + '</div>'; });
-    if (!state.chat.length) bubbles.push('<div class="bubble ai">Hi ' + esc(state.data.user.firstName) + '! I\'m the Jovia AI Assistant. Ask me anything about your tasks, wallet, referrals or the marketplace.</div>');
+    if (!state.chat.length) bubbles.push('<div class="bubble ai">Hi ' + esc(state.data.user.firstName) + '! I\'m the Jovia AI Assistant. Ask me anything about your tasks, wallet or the marketplace.</div>');
     if (typing) bubbles.push('<div class="bubble ai typing">Thinking…</div>');
     log.innerHTML = bubbles.join('');
     log.scrollTop = log.scrollHeight;

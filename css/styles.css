@@ -75,7 +75,11 @@ h1, h2, h3, h4 { font-family: var(--ff-head); font-weight: 700; line-height: 1.1
 .logo { display: inline-flex; align-items: center; gap: 10px; }
 .logo-mark {
   width: 36px; height: 36px; border-radius: 10px;
-  background: linear-gradient(135deg, #ffd95c 0%, #f0a500 100%);
+  background-color: #f0a500;
+  background-image: url("../images/logo-icon-white.png"), linear-gradient(135deg, #ffd95c 0%, #f0a500 100%);
+  background-size: 58%, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
   box-shadow: 0 4px 16px rgba(245, 184, 15, 0.25);
 }
 .logo-text { display: flex; flex-direction: column; line-height: 1; }

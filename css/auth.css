@@ -1,0 +1,116 @@
+/* ═══════════════════════════════════════════════════════
+   JOVIA NETWORK — auth.css  (signup + signin)
+   Loaded after styles.css — reuses its tokens, buttons, badge, logo
+═══════════════════════════════════════════════════════ */
+
+.auth { display: grid; min-height: 100vh; min-height: 100dvh; }
+@media (min-width: 960px) { .auth { grid-template-columns: 43% 1fr; } }
+
+/* ── Brand panel ── */
+.auth-aside {
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column;
+  padding: 28px 16px;
+  background:
+    linear-gradient(152deg, #3f1792 0%, #5a26c9 30%, #6a2ee0 52%, #6d30dd 62%, #a7697a 76%, #d49a0f 90%, #e0a20a 100%);
+}
+.auth-aside-body { display: none; }
+.auth-aside-foot { display: none; }
+@media (min-width: 960px) {
+  .auth-aside { padding: 56px 64px 56px; position: sticky; top: 0; height: 100vh; height: 100dvh; }
+  .auth-aside-body { display: block; margin: auto 0; max-width: 500px; }
+  .auth-aside-foot { display: flex; gap: 22px; font-size: 13.5px; color: rgba(255,255,255,0.6); }
+  .auth-aside-foot a:hover { color: #fff; }
+}
+.auth-aside .badge { background: rgba(139, 92, 246, 0.85); }
+.auth-aside h1 { font-size: clamp(40px, 3.6vw, 50px); line-height: 1.04; margin: 26px 0 28px; }
+.auth-aside .check-list li { font-size: 16.5px; color: #fff; }
+.auth-aside .check-list { gap: 22px; }
+
+/* ── Form side ── */
+.auth-main {
+  display: flex; align-items: center; justify-content: center;
+  padding: 40px 16px 56px; background: var(--bg);
+}
+@media (min-width: 960px) { .auth-main { padding: 48px 40px; } }
+.auth-form { width: 100%; max-width: 440px; }
+.auth-form h2 { font-size: clamp(30px, 3vw, 36px); }
+.auth-switch { margin-top: 6px; color: var(--text-2); font-size: 15px; }
+.auth-switch a { color: var(--gold); font-weight: 600; }
+.auth-switch a:hover { color: var(--gold-light); }
+
+.btn-google { margin-top: 20px; height: 56px; background: #241248; }
+
+.divider {
+  display: flex; align-items: center; gap: 12px; margin: 22px 0 14px;
+  color: var(--text-3); font-size: 13px;
+}
+.divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ── Fields ── */
+.field { margin-top: 16px; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.field-row .field { margin-top: 16px; }
+.field label { display: block; margin-bottom: 8px; font-size: 14.5px; font-weight: 500; }
+.control { position: relative; }
+.control input,
+.control select {
+  width: 100%; height: 48px; padding: 0 16px;
+  background: #1c1238; border: 1px solid rgba(124, 92, 220, 0.35); border-radius: 10px;
+  font-size: 15.5px; color: var(--text);
+  transition: border-color .2s, box-shadow .2s;
+  -webkit-appearance: none; appearance: none;
+}
+.control input::placeholder { color: var(--text-3); opacity: 1; }
+.control select:invalid { color: var(--text-3); }
+.control select option { color: var(--text); background: #1c1238; }
+.control input:focus,
+.control select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(245, 184, 15, 0.15); }
+.control.has-trail input,
+.control.has-trail select { padding-right: 48px; }
+.control .trail {
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+  width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+  color: var(--gold); pointer-events: none; border-radius: 8px;
+}
+.control button.trail { pointer-events: auto; }
+.control .trail .icon { width: 20px; height: 20px; }
+
+.field.error input,
+.field.error select { border-color: #ff6b81; }
+.field-error { display: none; margin-top: 6px; font-size: 13px; color: #ff8a9b; }
+.field.error .field-error { display: block; }
+
+/* ── Checkbox ── */
+.check { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14.5px; color: var(--text-2); }
+.check input {
+  -webkit-appearance: none; appearance: none; flex-shrink: 0;
+  width: 18px; height: 18px; border-radius: 5px; margin: 0;
+  border: 1.5px solid rgba(124, 92, 220, 0.6); background: #1c1238; cursor: pointer;
+  display: grid; place-content: center; transition: background .2s, border-color .2s;
+}
+.check input::after {
+  content: ''; width: 9px; height: 5px; margin-top: -2px;
+  border-left: 2px solid #1a1030; border-bottom: 2px solid #1a1030;
+  transform: rotate(-45deg) scale(0); transition: transform .15s;
+}
+.check input:checked { background: var(--gold); border-color: var(--gold); }
+.check input:checked::after { transform: rotate(-45deg) scale(1); }
+.field label.check { display: inline-flex; margin-bottom: 0; font-weight: 400; }
+.check a { color: inherit; }
+.check a:hover { color: var(--gold-light); }
+.field.error .check input { border-color: #ff6b81; }
+
+.form-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; }
+.link-gold { color: var(--gold); font-weight: 600; font-size: 14.5px; }
+.link-gold:hover { color: var(--gold-light); }
+
+.auth-form .btn-submit { margin-top: 24px; }
+.auth-form .btn-submit[disabled] { opacity: .7; cursor: progress; transform: none; }
+.form-note { margin-top: 18px; text-align: center; font-size: 13px; color: var(--text-2); }
+.form-status { display: none; margin-top: 16px; padding: 12px 14px; border-radius: 10px; font-size: 14px; }
+.form-status.show { display: block; }
+.form-status.ok  { background: rgba(62, 224, 160, 0.1); border: 1px solid rgba(62, 224, 160, 0.4); color: var(--green); }
+.form-status.err { background: rgba(255, 107, 129, 0.1); border: 1px solid rgba(255, 107, 129, 0.4); color: #ff8a9b; }
+
+@media (max-width: 400px) { .field-row { grid-template-columns: 1fr; gap: 0; } }

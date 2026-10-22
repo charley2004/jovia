@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Snake — Jovia Arcade</title>
+  <link rel="stylesheet" href="games.css">
+</head>
+<body>
+  <div class="game">
+    <header class="game-bar">
+      <strong>Snake</strong>
+      <span>Score: <b id="score">0</b></span>
+      <span>Best: <b id="best">0</b></span>
+      <button type="button" id="restart">Restart</button>
+    </header>
+    <canvas id="board" width="320" height="320" aria-label="Snake game board"></canvas>
+    <div class="pad" aria-label="Direction controls">
+      <button type="button" data-dir="up" aria-label="Up">▲</button>
+      <button type="button" data-dir="left" aria-label="Left">◀</button>
+      <button type="button" data-dir="down" aria-label="Down">▼</button>
+      <button type="button" data-dir="right" aria-label="Right">▶</button>
+    </div>
+    <p class="game-msg" id="msg">Use the arrow keys or the buttons. Eat the gold dots.</p>
+  </div>
+  <script src="activity.js"></script>
+  <script src="snake.js"></script>
+</body>
+</html>

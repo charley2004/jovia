@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Jovia Network</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0c0819">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="images/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body class="app">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m10 8 6 4-6 4z"/></symbol>
+  <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
+  <symbol id="i-gamepad" viewBox="0 0 24 24"><path d="M6 11h4M8 9v4M15 12h.01M18 10h.01"/><path d="M17.32 5H6.68a4 4 0 0 0-3.98 3.59C2.6 9.42 2 14.46 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.41-1.41A2 2 0 0 1 9.83 16h4.34a2 2 0 0 1 1.41.59L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.55-.6-6.58-.69-7.26A4 4 0 0 0 17.32 5z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+</svg>
+
+<header class="app-top">
+  <a href="index.html" class="logo" aria-label="Jovia Network home">
+    <span class="logo-mark"></span>
+    <span class="logo-text"><span class="logo-name">Jovia</span><span class="logo-sub">NETWORK</span></span>
+  </a>
+  <div class="app-top-right">
+    <span class="balance-pill" id="topBalance" hidden>₦0</span>
+    <div class="bell-wrap" id="bellWrap" hidden>
+      <button type="button" class="icon-btn bell" id="bellBtn" aria-label="Notifications" aria-expanded="false">
+        <svg class="icon"><use href="#i-bell"/></svg><span class="bell-count" id="bellCount" hidden>0</span>
+      </button>
+      <div class="card bell-panel" id="bellPanel" hidden>
+        <div class="bell-head"><strong>Notifications</strong><button type="button" class="link-btn" id="bellRead">Mark all read</button></div>
+        <ul class="bell-list" id="bellList"></ul>
+      </div>
+    </div>
+    <button type="button" class="btn btn-ghost btn-sm" id="logoutBtn"><svg class="icon"><use href="#i-logout"/></svg><span>Sign out</span></button>
+  </div>
+</header>
+
+<div class="app-loading" id="appLoading">Loading your dashboard…</div>
+
+<!-- ═════════════ NOT YET ACTIVE ═════════════ -->
+<main class="app-gate" id="gate" hidden>
+  <h1 class="sr-only">Activate your Jovia Network account</h1>
+
+  <!-- Step 1: pay -->
+  <section class="card gate-card" id="gatePay" hidden>
+    <div class="gate-icon"><svg class="icon"><use href="#i-lock"/></svg></div>
+    <span class="eyebrow">Step 1 of 2 · Activate</span>
+    <h2>Activate your account</h2>
+    <p class="muted">Hi <strong data-first-name>there</strong>. A one-time <strong data-fee>₦15,000</strong> activation unlocks every task module, the marketplace, referrals and your <strong data-bonus>₦15,000</strong> Welcome Smash Bonus.</p>
+    <p class="gate-alert" id="gateRejected" hidden></p>
+
+    <div class="bank-box">
+      <div class="bank-row"><span>Bank</span><strong data-bank="bankName">—</strong></div>
+      <div class="bank-row"><span>Account name</span><strong data-bank="accountName">—</strong></div>
+      <div class="bank-row"><span>Account number</span><strong data-bank="accountNumber">—</strong></div>
+      <div class="bank-row"><span>Amount</span><strong class="gold" data-fee>₦15,000</strong></div>
+    </div>
+    <p class="gate-warning">Only pay into the account shown above. Jovia Network will never ask you to pay into a personal account.</p>
+
+    <form id="payForm" class="app-form" novalidate>
+      <h3>After you transfer, tell us about the payment</h3>
+      <div class="app-field"><label for="senderName">Name on the account you paid from</label><input id="senderName" required maxlength="120" autocomplete="name"></div>
+      <div class="app-field"><label for="payRef">Transfer reference (optional)</label><input id="payRef" maxlength="120"></div>
+      <p class="form-error" role="alert"></p>
+      <button type="submit" class="btn btn-primary btn-block">I've made the transfer</button>
+    </form>
+  </section>
+
+  <!-- Step 2: awaiting verification -->
+  <section class="card gate-card" id="gateVerify" hidden>
+    <div class="gate-icon gold"><svg class="icon"><use href="#i-clock"/></svg></div>
+    <span class="eyebrow">Step 2 of 2 · Verification</span>
+    <h2>Payment received. Awaiting verification.</h2>
+    <p class="muted">Our team is checking your <strong data-fee>₦15,000</strong> transfer. This usually takes 1–24 hours. This page updates by itself.</p>
+    <ol class="steps-list">
+      <li class="done">Account created</li>
+      <li class="done">Payment details submitted</li>
+      <li class="now">Manual verification</li>
+      <li>Account activated — Welcome Bonus credited</li>
+    </ol>
+    <a class="btn btn-outline btn-block" id="supportLink" target="_blank" rel="noopener" hidden>Send your receipt to support</a>
+    <div class="gate-links">
+      <button type="button" class="link-btn" id="cancelPayBtn">I haven't paid yet — go back</button>
+      <button type="button" class="link-btn" id="refundBtn">Request a refund</button>
+    </div>
+  </section>
+
+  <!-- Refund states -->
+  <section class="card gate-card" id="gateRefund" hidden>
+    <div class="gate-icon"><svg class="icon"><use href="#i-wallet"/></svg></div>
+    <span class="eyebrow">Refund</span>
+    <h2 id="refundTitle">Refund requested</h2>
+    <p class="muted" id="refundText">Your account was never activated, so you are entitled to a full refund. Our team will send it to the account you paid from.</p>
+  </section>
+</main>
+
+<!-- ═════════════ ACTIVE MEMBER APP ═════════════ -->
+<div class="app-shell" id="shell" hidden>
+  <nav class="app-nav" aria-label="Dashboard">
+    <a href="#overview" data-tab="overview"><svg class="icon"><use href="#i-home"/></svg><span>Overview</span></a>
+    <a href="#tasks" data-tab="tasks"><svg class="icon"><use href="#i-clock"/></svg><span>Tasks</span></a>
+    <a href="#marketplace" data-tab="marketplace"><svg class="icon"><use href="#i-bag"/></svg><span>Market</span></a>
+    <a href="#wallet" data-tab="wallet"><svg class="icon"><use href="#i-wallet"/></svg><span>Wallet</span></a>
+    <a href="#referrals" data-tab="referrals"><svg class="icon"><use href="#i-users"/></svg><span>Referrals</span></a>
+    <a href="#fbr" data-tab="fbr"><svg class="icon"><use href="#i-star"/></svg><span>Friday</span></a>
+    <a href="#assistant" data-tab="assistant"><svg class="icon"><use href="#i-chat"/></svg><span>Assistant</span></a>
+    <a href="#account" data-tab="account"><svg class="icon"><use href="#i-user"/></svg><span>Account</span></a>
+  </nav>
+
+  <main class="app-main">
+    <h1 class="sr-only">Jovia Network member dashboard</h1>
+
+    <!-- OVERVIEW -->
+    <section class="tab" id="tab-overview" hidden>
+      <div class="tab-head">
+        <h2>Welcome back, <span data-first-name>Member</span></h2>
+        <p class="muted">Here's your wallet and activity for today.</p>
+      </div>
+      <div class="fbr-banner" id="fbrBanner" hidden>
+        <svg class="icon"><use href="#i-star"/></svg>
+        <span id="fbrBannerText">Friday Bonus is live</span>
+        <a href="#fbr" class="btn btn-primary btn-sm">Claim</a>
+      </div>
+      <div class="stat-grid">
+        <div class="card stat"><span>Wallet balance</span><strong id="stBalance">₦0</strong></div>
+        <div class="card stat"><span>Earned today</span><strong id="stToday">₦0</strong></div>
+        <div class="card stat"><span>Total earned</span><strong id="stTotal">₦0</strong></div>
+        <div class="card stat"><span>Withdrawn</span><strong id="stWithdrawn">₦0</strong></div>
+      </div>
+      <h3 class="block-title">Today's task limits</h3>
+      <div class="module-grid" id="ovModules"></div>
+      <h3 class="block-title">Recent activity</h3>
+      <div class="card list-card"><ul class="tx-list" id="ovRecent"></ul></div>
+    </section>
+
+    <!-- TASKS -->
+    <section class="tab" id="tab-tasks" hidden>
+      <div class="tab-head">
+        <h2>Task modules</h2>
+        <p class="muted">Pick an activity, set your timer and keep this page open while it runs. Leaving the page pauses the timer. Limits reset at midnight (Lagos time).</p>
+      </div>
+      <div class="module-grid" id="taskModules"></div>
+
+      <div class="card runner" id="runner" hidden>
+        <div class="runner-head">
+          <div>
+            <span class="eyebrow" id="runModuleName">Task</span>
+            <h3 id="runTitle">Set up your session</h3>
+          </div>
+          <button type="button" class="icon-btn" id="runClose" aria-label="Close"><svg class="icon"><use href="#i-x"/></svg></button>
+        </div>
+
+        <div id="runSetup">
+          <div class="app-field" id="contentField">
+            <label for="runContent">Choose what to play</label>
+            <select id="runContent"></select>
+          </div>
+          <div class="app-field">
+            <label for="runDuration">Timer length: <strong id="runDurationLabel">—</strong></label>
+            <input type="range" id="runDuration">
+            <div class="range-ends"><span id="runMin"></span><span id="runMax"></span></div>
+          </div>
+          <div class="task-brief" id="runBrief" hidden></div>
+          <p class="runner-reward">You'll earn <strong id="runReward">₦0</strong> when the timer finishes.</p>
+          <p class="form-error" id="runError" role="alert"></p>
+          <button type="button" class="btn btn-primary btn-block" id="runStart">Start timer</button>
+        </div>
+
+        <div id="runLive" hidden>
+          <div class="runner-media" id="runMedia"></div>
+          <div class="runner-timer" id="runClock">00:00</div>
+          <div class="progress"><span id="runProgress" style="width:0%"></span></div>
+          <p class="runner-state" id="runState">Running — keep this page open.</p>
+          <button type="button" class="btn btn-ghost btn-block" id="runAbandon">Stop session</button>
+        </div>
+
+        <form id="runProof" class="app-form" novalidate hidden>
+          <div class="runner-done-icon"><svg class="icon"><use href="#i-check"/></svg></div>
+          <h3>Timer finished — one last step</h3>
+          <div class="app-field"><label for="proofInput" id="proofLabel">Your proof</label><input id="proofInput" maxlength="500" required></div>
+          <p class="form-error" role="alert"></p>
+          <button type="submit" class="btn btn-primary btn-block">Submit for review</button>
+        </form>
+
+        <div id="runDone" hidden>
+          <div class="runner-done-icon"><svg class="icon"><use href="#i-check"/></svg></div>
+          <h3 id="runDoneTitle">Session complete</h3>
+          <p class="muted" id="runDoneText"></p>
+          <button type="button" class="btn btn-primary btn-block" id="runAgain">Run another session</button>
+        </div>
+      </div>
+
+      <h3 class="block-title">Recent sessions</h3>
+      <div class="card list-card"><ul class="tx-list" id="sessionList"></ul></div>
+    </section>
+
+    <!-- MARKETPLACE -->
+    <section class="tab" id="tab-marketplace" hidden>
+      <div class="tab-head">
+        <h2>Marketplace</h2>
+        <p class="muted">List a product and earn <strong data-mp-reward>₦3,000</strong> for every listing our team approves.</p>
+      </div>
+      <div class="two-col">
+        <form class="card app-form" id="listingForm" novalidate>
+          <h3>List a product</h3>
+          <div class="app-field"><label for="lTitle">Product name</label><input id="lTitle" name="title" maxlength="120" required></div>
+          <div class="app-field-row">
+            <div class="app-field"><label for="lCategory">Category</label><select id="lCategory" name="category" required></select></div>
+            <div class="app-field"><label for="lPrice">Price (₦)</label><input id="lPrice" name="price" inputmode="numeric" required></div>
+          </div>
+          <div class="app-field"><label for="lQty">Quantity in stock</label><input id="lQty" name="quantity" inputmode="numeric" value="1" required></div>
+          <div class="app-field"><label for="lDesc">Description</label><textarea id="lDesc" name="description" rows="4" maxlength="1000" required></textarea></div>
+          <div class="app-field"><label for="lImage">Photo (JPG, PNG or WebP, up to 3 MB)</label><input id="lImage" name="image" type="file" accept="image/jpeg,image/png,image/webp"></div>
+          <p class="form-error" role="alert"></p>
+          <button type="submit" class="btn btn-primary btn-block">Submit for approval</button>
+        </form>
+        <div>
+          <h3 class="block-title" style="margin-top:0">My listings</h3>
+          <div class="card list-card"><ul class="tx-list" id="myListings"></ul></div>
+        </div>
+      </div>
+      <h3 class="block-title">Browse the marketplace</h3>
+      <p class="muted small" id="shopNote">Pay with your wallet balance — in full, or a deposit now and the rest later. Your money is held until you confirm delivery.</p>
+      <div class="listing-grid" id="browseListings"></div>
+      <div class="two-col" style="margin-top:8px">
+        <div>
+          <h3 class="block-title">My orders</h3>
+          <div class="card list-card"><ul class="tx-list" id="orderList"></ul></div>
+        </div>
+        <div>
+          <h3 class="block-title">My sales</h3>
+          <div class="card list-card"><ul class="tx-list" id="salesList"></ul></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ASSISTANT -->
+    <section class="tab" id="tab-assistant" hidden>
+      <div class="tab-head">
+        <h2>Jovia AI Assistant</h2>
+        <p class="muted">Ask anything about tasks, payments, withdrawals, referrals or the marketplace. <span id="aiRemaining"></span></p>
+      </div>
+      <div class="card chat">
+        <div class="chat-log" id="chatLog" aria-live="polite"></div>
+        <div class="chat-suggest" id="chatSuggest">
+          <button type="button">How do I earn more today?</button>
+          <button type="button">When will my withdrawal arrive?</button>
+          <button type="button">How does buying in instalments work?</button>
+        </div>
+        <form class="chat-form" id="chatForm" novalidate>
+          <input id="chatInput" maxlength="2000" placeholder="Type your question…" autocomplete="off" aria-label="Your question">
+          <button type="submit" class="btn btn-primary btn-sm" aria-label="Send"><svg class="icon"><use href="#i-send"/></svg></button>
+        </form>
+      </div>
+      <p class="muted small" style="margin-top:10px">Answers come from Google Gemini and can be wrong. Don't type passwords, bank details or other personal information — Google may use questions to improve its products. The assistant can't see or change your account; for account problems, <a href="contact.html" class="gold">contact support</a>.</p>
+    </section>
+
+    <!-- WALLET -->
+    <section class="tab" id="tab-wallet" hidden>
+      <div class="tab-head">
+        <h2>Wallet</h2>
+        <p class="muted">Your earnings show here as you go. Withdrawals are paid to your bank within 24–48 hours on business days.</p>
+      </div>
+      <div class="stat-grid three">
+        <div class="card stat"><span>Available balance</span><strong id="wBalance">₦0</strong></div>
+        <div class="card stat"><span>Pending withdrawals</span><strong id="wPending">₦0</strong></div>
+        <div class="card stat"><span>Total withdrawn</span><strong id="wWithdrawn">₦0</strong></div>
+      </div>
+      <div class="two-col">
+        <form class="card app-form" id="bankForm" novalidate>
+          <h3>Payout bank account</h3>
+          <div class="app-field"><label for="bBank">Bank name</label><input id="bBank" list="bankList" maxlength="100" required></div>
+          <datalist id="bankList"></datalist>
+          <div class="app-field"><label for="bNumber">Account number</label><input id="bNumber" inputmode="numeric" maxlength="20" required></div>
+          <div class="app-field"><label for="bName">Account name</label><input id="bName" maxlength="120" required></div>
+          <p class="form-error" role="alert"></p>
+          <button type="submit" class="btn btn-outline btn-block">Save bank account</button>
+        </form>
+        <form class="card app-form" id="withdrawForm" novalidate>
+          <h3>Withdraw</h3>
+          <div class="app-field"><label for="wAmount">Amount (₦)</label><input id="wAmount" inputmode="numeric" required></div>
+          <p class="hint" id="wHint">Paid to your saved bank account.</p>
+          <p class="form-error" role="alert"></p>
+          <button type="submit" class="btn btn-primary btn-block">Request withdrawal</button>
+        </form>
+      </div>
+      <h3 class="block-title">Withdrawals</h3>
+      <div class="card list-card"><ul class="tx-list" id="withdrawList"></ul></div>
+      <h3 class="block-title">All transactions</h3>
+      <div class="card list-card"><ul class="tx-list" id="txList"></ul></div>
+      <div class="pager"><button type="button" class="btn btn-ghost btn-sm" id="txPrev">← Newer</button><span id="txPage"></span><button type="button" class="btn btn-ghost btn-sm" id="txNext">Older →</button></div>
+    </section>
+
+    <!-- REFERRALS -->
+    <section class="tab" id="tab-referrals" hidden>
+      <div class="tab-head">
+        <h2>Referrals</h2>
+        <p class="muted">Earn <strong data-ref-bonus>₦13,000</strong> when someone you invite activates, plus spillover credits from your wider network.</p>
+      </div>
+      <div class="card ref-box">
+        <div>
+          <span class="muted small">Your referral link</span>
+          <div class="ref-link" id="refLink">—</div>
+        </div>
+        <button type="button" class="btn btn-primary btn-sm" id="copyRef"><svg class="icon"><use href="#i-copy"/></svg>Copy link</button>
+      </div>
+      <div class="stat-grid three">
+        <div class="card stat"><span>Direct referrals</span><strong id="rCount">0</strong></div>
+        <div class="card stat"><span>Referral earnings</span><strong id="rEarned">₦0</strong></div>
+        <div class="card stat"><span>Spillover earnings</span><strong id="rSpill">₦0</strong></div>
+      </div>
+      <p class="muted small" id="spillNote"></p>
+      <h3 class="block-title">People you invited</h3>
+      <div class="card list-card"><ul class="tx-list" id="refList"></ul></div>
+    </section>
+
+    <!-- FRIDAY BONUS -->
+    <section class="tab" id="tab-fbr" hidden>
+      <div class="tab-head">
+        <h2>Friday Bonus Reward</h2>
+        <p class="muted">Every Friday a random number appears here. The fastest members to claim it win <strong data-fbr-reward>₦10,000</strong>.</p>
+      </div>
+      <div class="card fbr-card" id="fbrCard"></div>
+    </section>
+
+    <!-- ACCOUNT -->
+    <section class="tab" id="tab-account" hidden>
+      <div class="tab-head"><h2>Account</h2></div>
+      <div class="two-col">
+        <form class="card app-form" id="profileForm" novalidate>
+          <h3>Profile</h3>
+          <div class="app-field-row">
+            <div class="app-field"><label for="pFirst">First name</label><input id="pFirst" maxlength="80" required></div>
+            <div class="app-field"><label for="pLast">Last name</label><input id="pLast" maxlength="80" required></div>
+          </div>
+          <dl class="info-list">
+            <dt>Email</dt><dd id="pEmail">—</dd>
+            <dt>Phone</dt><dd id="pPhone">—</dd>
+            <dt>Country</dt><dd id="pCountry">—</dd>
+            <dt>Member since</dt><dd id="pSince">—</dd>
+          </dl>
+          <p class="form-error" role="alert"></p>
+          <button type="submit" class="btn btn-outline btn-block">Save profile</button>
+        </form>
+        <form class="card app-form" id="passwordForm" novalidate>
+          <h3>Change password</h3>
+          <div class="app-field"><label for="pwCurrent">Current password</label><input id="pwCurrent" type="password" autocomplete="current-password" required></div>
+          <div class="app-field"><label for="pwNext">New password</label><input id="pwNext" type="password" autocomplete="new-password" minlength="8" required></div>
+          <p class="form-error" role="alert"></p>
+          <button type="submit" class="btn btn-outline btn-block">Update password</button>
+          <p class="hint">Need help? <a href="contact.html" class="gold">Contact support</a></p>
+        </form>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="modal" id="buyModal" hidden>
+  <form class="card modal-card app-form" id="buyForm" novalidate>
+    <button type="button" class="icon-btn modal-close" data-close-modal aria-label="Close"><svg class="icon"><use href="#i-x"/></svg></button>
+    <h3 id="buyTitle">Buy</h3>
+    <p class="muted" id="buyPrice"></p>
+    <div class="plan-pick">
+      <label><input type="radio" name="plan" value="FULL" checked> <span><strong>Pay in full</strong><small id="planFullText"></small></span></label>
+      <label><input type="radio" name="plan" value="INSTALMENT"> <span><strong>Pay small-small</strong><small id="planInstText"></small></span></label>
+    </div>
+    <div class="app-field"><label for="dName">Delivery name</label><input id="dName" name="deliveryName" maxlength="120" required></div>
+    <div class="app-field"><label for="dPhone">Delivery phone</label><input id="dPhone" name="deliveryPhone" inputmode="tel" maxlength="32" required></div>
+    <div class="app-field"><label for="dAddress">Delivery address</label><textarea id="dAddress" name="deliveryAddress" rows="3" maxlength="500" required></textarea></div>
+    <p class="hint">Paid from your wallet (balance <strong id="buyBalance">₦0</strong>). The seller is only paid after you confirm delivery.</p>
+    <p class="form-error" role="alert"></p>
+    <button type="submit" class="btn btn-primary btn-block">Place order</button>
+  </form>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/api.js" defer></script>
+<script src="js/dashboard.js" defer></script>
+</body>
+</html>

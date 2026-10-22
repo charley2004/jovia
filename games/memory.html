@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Memory Match — Jovia Arcade</title>
+  <link rel="stylesheet" href="games.css">
+</head>
+<body>
+  <div class="game">
+    <header class="game-bar">
+      <strong>Memory Match</strong>
+      <span>Moves: <b id="moves">0</b></span>
+      <span>Pairs: <b id="pairs">0</b>/8</span>
+      <button type="button" id="restart">New game</button>
+    </header>
+    <div class="grid" id="grid" aria-label="Memory cards"></div>
+    <p class="game-msg" id="msg">Flip two cards to find a matching pair.</p>
+  </div>
+  <script src="activity.js"></script>
+  <script src="memory.js"></script>
+</body>
+</html>

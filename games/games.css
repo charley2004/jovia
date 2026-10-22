@@ -1,0 +1,37 @@
+/* Jovia Arcade — shared game styles */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: #0c0819; color: #f3eefe;
+  display: flex; align-items: center; justify-content: center; padding: 12px;
+}
+.game { width: 100%; max-width: 420px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.game-bar { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 13px; color: #b6abd4; }
+.game-bar strong { color: #f3eefe; font-size: 15px; }
+.game-bar b { color: #f5b80f; }
+.game-bar button, .pad button {
+  font: inherit; color: #f3eefe; background: #2c1a5c; border: 1px solid rgba(140, 100, 255, 0.45);
+  border-radius: 10px; padding: 6px 12px; cursor: pointer;
+}
+.game-msg { font-size: 13px; color: #b6abd4; text-align: center; min-height: 18px; }
+
+/* Memory */
+.grid { width: 100%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.card {
+  aspect-ratio: 1; border-radius: 12px; border: 1px solid rgba(124, 92, 220, 0.35);
+  background: linear-gradient(160deg, #351578, #2a1065); cursor: pointer;
+  font-size: clamp(22px, 7vw, 32px); color: #1a1030;
+}
+.card span { visibility: hidden; }
+.card.open, .card.done { background: #f5b80f; }
+.card.open span, .card.done span { visibility: visible; }
+.card.done { opacity: .55; cursor: default; }
+
+/* Snake */
+canvas { width: 100%; max-width: 320px; aspect-ratio: 1; border-radius: 12px; border: 1px solid rgba(124, 92, 220, 0.35); }
+.pad { display: grid; grid-template-columns: repeat(3, 48px); grid-template-rows: repeat(2, 40px); gap: 6px; }
+.pad [data-dir="up"] { grid-column: 2; }
+.pad [data-dir="left"] { grid-column: 1; grid-row: 2; }
+.pad [data-dir="down"] { grid-column: 2; grid-row: 2; }
+.pad [data-dir="right"] { grid-column: 3; grid-row: 2; }

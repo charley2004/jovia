@@ -1,0 +1,64 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\Setting;
+use Illuminate\Support\Facades\Cache;
+
+// Business settings, stored as JSON in the `settings` table and edited in Filament.
+class Settings
+{
+    public const DEFAULTS = [
+        'activationFee' => 15000,
+        'welcomeBonus' => 15000,
+        'referralBonus' => 13000,
+        // Spillover credits up the referral chain: index 0 = level 2, index 1 = level 3, ...
+        'spilloverLevels' => [600, 500, 400],
+        'marketplaceReward' => 3000,
+        'fbrReward' => 10000,
+        'fbrMaxWinners' => 10,
+        'fbrOpenHour' => 12, // Lagos time, on Fridays
+        'minWithdrawal' => 0,
+        'usdToNgn' => 1000,
+        // Marketplace orders (paid from the buyer's wallet, held until delivery is confirmed)
+        'instalmentDepositPercent' => 50,
+        'instalmentDays' => 14,
+        'autoReleaseDays' => 7,
+        'marketplaceFeePercent' => 0,
+        'assistantDailyLimit' => 40,
+        'activationBankName' => '',
+        'activationAccountName' => '',
+        'activationAccountNumber' => '',
+        'supportUrl' => '',
+        'supportEmail' => '',
+    ];
+
+    public static function all(): array
+    {
+        return Cache::remember('jovia.settings', 30, function () {
+            $out = self::DEFAULTS;
+            foreach (Setting::all() as $row) {
+                $out[$row->key] = json_decode($row->value, true);
+            }
+
+            return $out;
+        });
+    }
+
+    public static function get(string $key): mixed
+    {
+        return self::all()[$key] ?? null;
+    }
+
+    public static function save(array $patch): array
+    {
+        foreach ($patch as $key => $value) {
+            if (array_key_exists($key, self::DEFAULTS)) {
+                Setting::updateOrCreate(['key' => $key], ['value' => json_encode($value)]);
+            }
+        }
+        Cache::forget('jovia.settings');
+
+        return self::all();
+    }
+}

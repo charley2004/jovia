@@ -1,0 +1,8 @@
+# Local tooling
+.claude/
+node_modules/
+backend-node/
+*.zip
+
+# Laravel ignores its own vendor/, .env and runtime files (backend/.gitignore)
+backend/.phpunit.result.cache

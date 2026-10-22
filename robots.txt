@@ -1,0 +1,16 @@
+# Jovia Network — robots.txt
+# https://joviaplatform.ng
+
+User-agent: *
+Allow: /
+Disallow: /dashboard.html
+Disallow: /admin
+Disallow: /reset-password.html
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://joviaplatform.ng/sitemap.xml

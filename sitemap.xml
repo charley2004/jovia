@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
   <url>
     <loc>https://joviaplatform.ng/</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-10-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://joviaplatform.ng/images/welcome-to-jovia-network-earn-money-for-time-online.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://joviaplatform.ng/images/jovia-marketplace-shop-sell-and-earn-online.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://joviaplatform.ng/images/jovia-friday-bonus-rewards-win-10-dollars.jpg</image:loc>
+    </image:image>
   </url>
 
   <url>

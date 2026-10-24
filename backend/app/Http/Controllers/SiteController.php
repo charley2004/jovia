@@ -12,12 +12,12 @@ class SiteController extends Controller
     private const TYPES = [
         'html' => 'text/html; charset=UTF-8', 'css' => 'text/css', 'js' => 'application/javascript',
         'svg' => 'image/svg+xml', 'png' => 'image/png', 'jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'webp' => 'image/webp',
-        'ico' => 'image/x-icon', 'xml' => 'application/xml', 'txt' => 'text/plain', 'webmanifest' => 'application/manifest+json',
+        'ico' => 'image/x-icon', 'xml' => 'application/xml', 'txt' => 'text/plain', 'webmanifest' => 'application/manifest+json', 'woff2' => 'font/woff2',
     ];
 
     // The member pages are static HTML, so the policy can be strict: no inline scripts.
     private const CSP = "default-src 'self'; script-src 'self' https://www.youtube.com https://s.ytimg.com https://open.spotify.com; ".
-        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; ".
+        "style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; ".
         "frame-src 'self' https:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'";
 
     public function __invoke(Request $request, string $path = '')
@@ -31,6 +31,9 @@ class SiteController extends Controller
         $file = realpath($root.DIRECTORY_SEPARATOR.$path);
         if (! $file && ! str_contains(basename($path), '.')) {
             $file = realpath($root.DIRECTORY_SEPARATOR.$path.'.html'); // /signup → signup.html
+        }
+        if ($file && is_dir($file)) {
+            $file = realpath($file.DIRECTORY_SEPARATOR.'index.html'); // /blog/ → blog/index.html
         }
         if (! $file || ! str_starts_with($file, $root) || ! is_file($file)) {
             abort(404);

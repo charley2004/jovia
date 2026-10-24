@@ -335,6 +335,31 @@ class JoviaApiTest extends TestCase
         $this->get('/signup')->assertOk(); // extensionless URL
         $this->get('/backend/.env')->assertNotFound();
         $this->get('/backend-node/package.json')->assertNotFound();
+        $this->assertStringEndsWith('blog'.DIRECTORY_SEPARATOR.'index.html', $this->get('/blog/')->assertOk()->baseResponse->getFile()->getPathname()); // folder → index.html
+        $this->get('/blog/is-jovia-network-legit')->assertOk();
+        $this->get('/fonts/inter-latin.woff2')->assertOk()->assertHeader('Content-Type', 'font/woff2');
+        $this->assertStringNotContainsString('fonts.googleapis', $this->get('/')->headers->get('Content-Security-Policy'));
+    }
+
+    public function test_contact_form_saves_messages_for_the_admin(): void
+    {
+        $msg = ['name' => 'Ada Obi', 'email' => 'Ada@Example.com', 'topic' => 'WITHDRAWAL', 'message' => 'My withdrawal from Monday has not arrived yet.'];
+        $this->postJson('/api/contact', $msg)->assertCreated();
+        $this->assertDatabaseHas('contact_messages', ['email' => 'ada@example.com', 'topic' => 'WITHDRAWAL', 'status' => 'NEW', 'user_id' => null]);
+
+        // Signed-in members are linked to their account
+        $u = $this->member();
+        $this->actingAs($u)->postJson('/api/contact', array_merge($msg, ['email' => $u->email]))->assertCreated();
+        $this->assertDatabaseHas('contact_messages', ['user_id' => $u->id]);
+
+        // Validation, and bots that fill the hidden field are dropped silently
+        $this->postJson('/api/contact', array_merge($msg, ['message' => 'Hi']))->assertStatus(400)->assertJsonPath('error', 'Tell us a little more (at least 10 characters).');
+        $this->postJson('/api/contact', array_merge($msg, ['topic' => 'NOPE']))->assertStatus(400);
+        $this->postJson('/api/contact', array_merge($msg, ['website' => 'http://spam.example']))->assertCreated();
+        $this->assertSame(2, \App\Models\ContactMessage::count());
+
+        // At most 5 messages an hour from one address (the 5 above all count)
+        $this->postJson('/api/contact', $msg)->assertStatus(429)->assertJsonPath('error', "You've sent several messages already. We'll reply to those first; please try again later.");
     }
 
     public function test_assistant_uses_gemini_without_sending_personal_data(): void

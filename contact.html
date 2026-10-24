@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Jovia Network | Support, Email &amp; Office</title>
-  <meta name="description" content="Contact Jovia Network support for help with activation, task timers, withdrawals and your account. Email, chat channel and registered office details.">
+  <title>Contact Jovia Network | Support &amp; Help</title>
+  <meta name="description" content="Contact Jovia Network support for help with activation, task timers, withdrawals and your account. Send the support team a message and get a reply by email.">
   <meta name="theme-color" content="#0c0819">
   <meta name="robots" content="index, follow">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -16,8 +16,8 @@
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
   <link rel="canonical" href="https://joviaplatform.ng/contact.html">
-  <meta property="og:title" content="Contact Jovia Network | Support, Email &amp; Office">
-  <meta property="og:description" content="Contact Jovia Network support for help with activation, task timers, withdrawals and your account. Email, chat channel and registered office details.">
+  <meta property="og:title" content="Contact Jovia Network | Support &amp; Help">
+  <meta property="og:description" content="Contact Jovia Network support for help with activation, task timers, withdrawals and your account. Send the support team a message and get a reply by email.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Jovia Network">
   <meta property="og:url" content="https://joviaplatform.ng/contact.html">
@@ -27,8 +27,8 @@
   <meta property="og:image:alt" content="Jovia Network — Earn cash for the time you spend online">
   <meta property="og:locale" content="en_NG">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Contact Jovia Network | Support, Email &amp; Office">
-  <meta name="twitter:description" content="Contact Jovia Network support for help with activation, task timers, withdrawals and your account. Email, chat channel and registered office details.">
+  <meta name="twitter:title" content="Contact Jovia Network | Support &amp; Help">
+  <meta name="twitter:description" content="Contact Jovia Network support for help with activation, task timers, withdrawals and your account. Send the support team a message and get a reply by email.">
   <meta name="twitter:image" content="https://joviaplatform.ng/images/og-jovia-network.png">
   <script type="application/ld+json">
   {
@@ -61,8 +61,8 @@
         "@type": "ContactPage",
         "@id": "https://joviaplatform.ng/contact.html#webpage",
         "url": "https://joviaplatform.ng/contact.html",
-        "name": "Contact Jovia Network | Support, Email & Office",
-        "description": "Contact Jovia Network support for help with activation, task timers, withdrawals and your account. Email, chat channel and registered office details.",
+        "name": "Contact Jovia Network | Support & Help",
+        "description": "Contact Jovia Network support for help with activation, task timers, withdrawals and your account. Send the support team a message and get a reply by email.",
         "isPartOf": {
           "@id": "https://joviaplatform.ng/#website"
         },
@@ -88,11 +88,11 @@
     ]
   }
   </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" href="fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/auth.css">
 </head>
 <body>
 
@@ -145,35 +145,77 @@
     <div class="container">
       <span class="badge">Support</span>
       <h1>Contact Jovia Network</h1>
-      <p class="about-hero-sub">Questions about activation, task timers, payments or withdrawals? Reach the team through any of the channels below.</p>
+      <p class="about-hero-sub">Questions about activation, task timers, payments or withdrawals? Send the team a message using the form below.</p>
     </div>
   </section>
 
   <section class="section" id="contact">
     <div class="container">
-      <div class="contact-grid">
-        <div class="card contact-card reveal">
-          <span class="icon-tile"><svg class="icon"><use href="#i-mail"/></svg></span>
-          <h3>Email Support</h3>
-          <p class="ph">[ Support email address to be supplied ]</p>
-        </div>
-        <div class="card contact-card reveal">
-          <span class="icon-tile"><svg class="icon"><use href="#i-message"/></svg></span>
-          <h3>Chat Support</h3>
-          <p class="ph">[ Telegram / WhatsApp link to be supplied ]</p>
-        </div>
-        <div class="card contact-card reveal">
-          <span class="icon-tile"><svg class="icon"><use href="#i-building"/></svg></span>
-          <h3>Registered Office</h3>
-          <p class="ph">[ Registered company name · RC number · business address ]</p>
-        </div>
-      </div>
+      <div class="contact-layout">
+        <form class="card contact-form reveal" id="contact-form" novalidate>
+          <h2>Send us a message</h2>
+          <p class="muted">Messages go straight to the Jovia support team. We reply by email, in the order messages arrive.</p>
+          <div class="field-row">
+            <div class="field">
+              <label for="c-name">Your name</label>
+              <div class="control"><input id="c-name" name="name" type="text" autocomplete="name" required maxlength="120"></div>
+              <p class="field-error">Enter your name.</p>
+            </div>
+            <div class="field">
+              <label for="c-email">Email address</label>
+              <div class="control"><input id="c-email" name="email" type="email" autocomplete="email" required maxlength="191"></div>
+              <p class="field-error">Enter a valid email address so we can reply.</p>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="c-phone">Phone number <span class="muted">(optional)</span></label>
+              <div class="control"><input id="c-phone" name="phone" type="tel" autocomplete="tel" maxlength="32"></div>
+            </div>
+            <div class="field">
+              <label for="c-topic">What is it about?</label>
+              <div class="control">
+                <select id="c-topic" name="topic" required>
+                  <option value="" disabled selected>Choose a topic</option>
+                  <option value="ACTIVATION">Activation &amp; payment</option>
+                  <option value="WITHDRAWAL">Withdrawals</option>
+                  <option value="TASKS">Tasks &amp; timers</option>
+                  <option value="MARKETPLACE">Marketplace</option>
+                  <option value="ACCOUNT">My account</option>
+                  <option value="PRIVACY">Privacy &amp; data</option>
+                  <option value="OTHER">Something else</option>
+                </select>
+              </div>
+              <p class="field-error">Choose what your message is about.</p>
+            </div>
+          </div>
+          <div class="field">
+            <label for="c-message">Message</label>
+            <div class="control"><textarea id="c-message" name="message" rows="6" required minlength="10" maxlength="3000" placeholder="Tell us what happened. For payments, include the date, amount and the name on the account you paid from."></textarea></div>
+            <p class="field-error">Tell us a little more (at least 10 characters).</p>
+          </div>
+          <div class="hp" aria-hidden="true"><label for="c-website">Leave this empty</label><input id="c-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+          <p class="form-note left">Never include your password or full card details. We will never ask for them.</p>
+          <button type="submit" class="btn btn-primary btn-submit">Send message</button>
+          <p class="form-status" role="status" aria-live="polite"></p>
+        </form>
 
-      <div class="card contact-hours reveal">
-        <span class="icon-tile"><svg class="icon"><use href="#i-clock"/></svg></span>
-        <div>
-          <h3>Support hours</h3>
-          <p class="ph">[ Support hours and typical response time to be supplied ]</p>
+        <div class="contact-side">
+          <div class="card contact-card reveal">
+            <span class="icon-tile"><svg class="icon"><use href="#i-clock"/></svg></span>
+            <h3>When we reply</h3>
+            <p>We answer every message by email, usually within two business days (Monday to Friday).</p>
+          </div>
+          <div class="card contact-card reveal">
+            <span class="icon-tile"><svg class="icon"><use href="#i-message"/></svg></span>
+            <h3>Already a member?</h3>
+            <p>Sign in first so we can see your account. The dashboard's <strong>Assistant</strong> tab answers common questions instantly.</p>
+          </div>
+          <div class="card contact-card reveal">
+            <span class="icon-tile"><svg class="icon"><use href="#i-mail"/></svg></span>
+            <h3>Refunds</h3>
+            <p>If you paid but your account was never activated, request a refund from your dashboard. See the <a href="terms.html#refunds">refund policy</a>.</p>
+          </div>
         </div>
       </div>
 
@@ -203,7 +245,7 @@
         </div>
         <div>
           <h4>Company</h4>
-          <ul><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul>
+          <ul><li><a href="about.html">About</a></li><li><a href="blog/">Blog</a></li><li><a href="contact.html">Contact</a></li></ul>
         </div>
         <div>
           <h4>Legal</h4>
@@ -213,11 +255,13 @@
     </div>
     <div class="footer-bottom">
       <span>© <span id="year">2026</span> Jovia Network. All rights reserved.</span>
-      <span class="legal ph">[ Registered company name · RC number · address ]</span>
+      <span class="legal">joviaplatform.ng</span>
     </div>
   </div>
 </footer>
 
 <script src="js/main.js" defer></script>
+<script src="js/api.js" defer></script>
+<script src="js/contact.js" defer></script>
 </body>
 </html>

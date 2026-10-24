@@ -67,4 +67,44 @@
     <priority>0.3</priority>
   </url>
 
+  <url>
+    <loc>https://joviaplatform.ng/blog/</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://joviaplatform.ng/blog/what-is-jovia-network.html</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://joviaplatform.ng/blog/is-jovia-network-legit.html</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://joviaplatform.ng/blog/earn-money-watching-videos-nigeria.html</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://joviaplatform.ng/blog/play-games-and-earn-money-nigeria.html</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://joviaplatform.ng/blog/jovia-marketplace-sell-and-buy-in-instalments.html</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://joviaplatform.ng/images/jovia-marketplace-shop-sell-and-earn-online.jpg</image:loc>
+    </image:image>
+  </url>
+
 </urlset>

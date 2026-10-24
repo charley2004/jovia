@@ -163,9 +163,8 @@
     ]
   }
   </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" href="fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -494,7 +493,7 @@
       <a href="how-it-works.html" class="card page-card"><h3>How It Works</h3><p>Step-by-step breakdown of timers, tasks, and wallet mechanics.</p><span class="open">Open <svg class="icon"><use href="#i-arrow"/></svg></span></a>
       <a href="about.html" class="card page-card"><h3>About Us</h3><p>Our mission, values, and why we built Jovia Network.</p><span class="open">Open <svg class="icon"><use href="#i-arrow"/></svg></span></a>
       <a href="faq.html" class="card page-card"><h3>Frequently Asked Questions</h3><p>Clear answers to common questions about fees, task rules, and bank transfers.</p><span class="open">Open <svg class="icon"><use href="#i-arrow"/></svg></span></a>
-      <a href="terms.html" class="card page-card"><h3>Terms &amp; Conditions</h3><p>Full legal terms, user agreements, and payout policies.</p><span class="open">Open <svg class="icon"><use href="#i-arrow"/></svg></span></a>
+      <a href="blog/" class="card page-card"><h3>Jovia Blog</h3><p>Plain guides to fees, daily limits, the marketplace and how to stay safe.</p><span class="open">Open <svg class="icon"><use href="#i-arrow"/></svg></span></a>
     </div>
   </div>
 </section>
@@ -548,31 +547,8 @@
   </div>
 </section>
 
-<!-- ═════════════ REVIEWS ═════════════ -->
-<section class="section" id="reviews">
-  <div class="container">
-    <div class="section-head reveal">
-      <span class="eyebrow">Member engagement</span>
-      <h2 class="section-title">How Do Current Members Rate Their Experience?</h2>
-      <p class="section-sub">Read real user experiences submitted directly from active dashboard accounts across Nigeria.</p>
-    </div>
-    <div class="review-grid">
-      <article class="card review reveal">
-        <div class="stars" aria-label="5 out of 5 stars"><svg class="icon"><use href="#i-star"/></svg><svg class="icon"><use href="#i-star"/></svg><svg class="icon"><use href="#i-star"/></svg><svg class="icon"><use href="#i-star"/></svg><svg class="icon"><use href="#i-star"/></svg></div>
-        <blockquote>"I completed my registration on Monday and received my ₦15,000 Smash Bonus right away. The music streaming module paid out directly to my wallet after running three 60-second track sessions."</blockquote>
-        <div class="reviewer"><span class="avatar">AO</span><div><strong>Adebayo Ogundipe</strong><span>Lagos, Nigeria</span></div></div>
-      </article>
-      <article class="card review reveal">
-        <div class="stars" aria-label="5 out of 5 stars"><svg class="icon"><use href="#i-star"/></svg><svg class="icon"><use href="#i-star"/></svg><svg class="icon"><use href="#i-star"/></svg><svg class="icon"><use href="#i-star"/></svg><svg class="icon"><use href="#i-star"/></svg></div>
-        <blockquote>"I listed four fashion items on the marketplace and earned $3 per upload as stated. Direct bank withdrawals process reliably once requested through the dashboard."</blockquote>
-        <div class="reviewer"><span class="avatar">CO</span><div><strong>Chidinma Okolie</strong><span>Enugu, Nigeria</span></div></div>
-      </article>
-    </div>
-  </div>
-</section>
-
 <!-- ═════════════ FAQ ═════════════ -->
-<section class="section alt" id="faq">
+<section class="section" id="faq">
   <div class="container">
     <div class="section-head reveal">
       <span class="eyebrow">Member questions answered</span>
@@ -612,7 +588,7 @@
 </section>
 
 <!-- ═════════════ CTA ═════════════ -->
-<section class="section">
+<section class="section alt">
   <div class="container">
     <div class="cta-band reveal">
       <span class="eyebrow">Get started today</span>
@@ -646,7 +622,7 @@
         </div>
         <div>
           <h4>Company</h4>
-          <ul><li><a href="#about">About</a></li><li><a href="contact.html">Contact</a></li></ul>
+          <ul><li><a href="#about">About</a></li><li><a href="blog/">Blog</a></li><li><a href="contact.html">Contact</a></li></ul>
         </div>
         <div>
           <h4>Legal</h4>
@@ -656,7 +632,7 @@
     </div>
     <div class="footer-bottom">
       <span>© <span id="year">2026</span> Jovia Network. All rights reserved.</span>
-      <span class="legal">[ Registered company name · RC number · address ]</span>
+      <span class="legal">joviaplatform.ng</span>
     </div>
   </div>
 </footer>

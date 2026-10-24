@@ -88,9 +88,8 @@
     ]
   }
   </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" href="fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/pages.css">
 </head>
@@ -265,22 +264,8 @@
     </div>
   </section>
 
-  <!-- TEAM (placeholder — real names/roles not yet supplied) -->
-  <section class="section alt" id="team">
-    <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">The People Behind Jovia</span>
-        <h2 class="section-title">Our Team</h2>
-        <p class="section-sub ph">[ Team member names, roles, and bios to be supplied by Jovia Network before launch. ]</p>
-      </div>
-      <div class="ph-note" style="max-width:640px;margin:0 auto;">
-        This section is intentionally left as a placeholder — publishing fabricated team names or bios here would misrepresent who runs Jovia Network. Replace with real founder/team details before this page goes live.
-      </div>
-    </div>
-  </section>
-
   <!-- CONTACT -->
-  <section class="section" id="contact">
+  <section class="section alt" id="contact">
     <div class="container">
       <div class="section-head reveal">
         <span class="eyebrow">Get In Touch</span>
@@ -290,25 +275,25 @@
       <div class="contact-grid">
         <div class="card contact-card reveal">
           <span class="icon-tile"><svg class="icon"><use href="#i-mail"/></svg></span>
-          <h3>Email Support</h3>
-          <p class="ph">[ Support email address to be supplied ]</p>
+          <h3>Message the team</h3>
+          <p>Use the <a href="contact.html">contact form</a>. We reply by email, usually within two business days.</p>
         </div>
         <div class="card contact-card reveal">
           <span class="icon-tile"><svg class="icon"><use href="#i-message"/></svg></span>
-          <h3>Community Channel</h3>
-          <p class="ph">[ Telegram / WhatsApp / social handle to be supplied ]</p>
+          <h3>Members</h3>
+          <p>Sign in and open the <strong>Assistant</strong> tab for instant answers about tasks, payments and withdrawals.</p>
         </div>
         <div class="card contact-card reveal">
           <span class="icon-tile"><svg class="icon"><use href="#i-building"/></svg></span>
-          <h3>Registered Office</h3>
-          <p class="ph">[ Registered company name · RC number · business address ]</p>
+          <h3>Help centre</h3>
+          <p>Most questions are answered in the <a href="faq.html">FAQ</a> and on <a href="how-it-works.html">How It Works</a>.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- FINAL CTA -->
-  <section class="section alt">
+  <section class="section">
     <div class="container">
       <div class="cta-band reveal">
         <span class="eyebrow">Get started today</span>
@@ -342,7 +327,7 @@
         </div>
         <div>
           <h4>Company</h4>
-          <ul><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul>
+          <ul><li><a href="about.html">About</a></li><li><a href="blog/">Blog</a></li><li><a href="contact.html">Contact</a></li></ul>
         </div>
         <div>
           <h4>Legal</h4>
@@ -352,7 +337,7 @@
     </div>
     <div class="footer-bottom">
       <span>© <span id="year">2026</span> Jovia Network. All rights reserved.</span>
-      <span class="legal ph">[ Registered company name · RC number · address ]</span>
+      <span class="legal">joviaplatform.ng</span>
     </div>
   </div>
 </footer>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AssistantController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\FbrController;
 use App\Http\Controllers\Api\MarketplaceController;
 use App\Http\Controllers\Api\MemberController;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 // Admin work happens in the Filament panel at /admin.
 
 Route::get('/health', fn () => ['ok' => true]);
+Route::post('/contact', [ContactController::class, 'store'])->middleware('throttle:contact');
 
 Route::prefix('auth')->group(function () {
     Route::middleware('throttle:auth')->group(function () {

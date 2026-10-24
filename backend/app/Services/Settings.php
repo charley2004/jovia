@@ -28,8 +28,8 @@ class Settings
         'activationAccountNumber' => '',
         'supportUrl' => '',
         // Members send their transfer receipt here after pressing "I've made the transfer"
-        'paymentProofUrl' => 'https://t.me/Nextel_Registration',
-        'supportEmail' => '',
+        'paymentProofUrl' => 'https://t.me/Jovia_Registration',
+        'supportEmail' => 'joviaplatform@gmail.com',
     ];
 
     public static function all(): array

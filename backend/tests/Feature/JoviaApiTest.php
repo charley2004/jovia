@@ -337,7 +337,7 @@ class JoviaApiTest extends TestCase
         $this->get('/backend-node/package.json')->assertNotFound();
         $this->assertStringEndsWith('blog'.DIRECTORY_SEPARATOR.'index.html', $this->get('/blog/')->assertOk()->baseResponse->getFile()->getPathname()); // folder → index.html
         $this->get('/blog/is-jovia-network-legit')->assertOk();
-        $this->get('/fonts/inter-latin.woff2')->assertOk()->assertHeader('Content-Type', 'font/woff2');
+        $this->get('/fonts/inter.woff2')->assertOk()->assertHeader('Content-Type', 'font/woff2');
         $this->assertStringNotContainsString('fonts.googleapis', $this->get('/')->headers->get('Content-Security-Policy'));
     }
 

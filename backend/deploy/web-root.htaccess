@@ -1,0 +1,72 @@
+# ═══════════════════════════════════════════════════════════════
+#  Jovia Network — web root (public_html) on HostAfrica
+#  Website files (HTML, CSS, JS, images, fonts) are served directly by the web server.
+#  Everything else (/api, /admin, /sanctum, /livewire, /storage …) goes to Laravel via index.php.
+#  Written by backend/deploy/update.sh — edit backend/deploy/web-root.htaccess, not the copy.
+# ═══════════════════════════════════════════════════════════════
+
+Options -Indexes -MultiViews
+DirectoryIndex index.html index.php
+AddType application/manifest+json .webmanifest
+AddType font/woff2 .woff2
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # 1. HTTPS and the bare domain
+  RewriteCond %{HTTPS} off
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+  RewriteCond %{HTTP_HOST} ^www\.joviaplatform\.ng$ [NC]
+  RewriteRule ^ https://joviaplatform.ng%{REQUEST_URI} [R=301,L]
+
+  # 2. Hidden files stay hidden (but Let's Encrypt needs /.well-known)
+  RewriteRule (^|/)\.(?!well-known/) - [F]
+
+  # 3. /index.html → /   and   /signup → /signup.html
+  RewriteCond %{THE_REQUEST} \s/index\.html[\s?] [NC]
+  RewriteRule ^index\.html$ / [R=301,L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteRule ^([a-z0-9/-]+?)/?$ /$1.html [R=301,L]
+
+  # 4. Laravel: pass auth headers through, send everything that isn't a real file to index.php
+  RewriteCond %{HTTP:Authorization} .
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+  RewriteCond %{HTTP:x-xsrf-token} .
+  RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} (.+)/$
+  RewriteRule ^ %1 [L,R=301]
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^ index.php [L]
+</IfModule>
+
+<FilesMatch "\.(zip|env|log|bak|sql|md|lock|json|sh)$">
+  Require all denied
+</FilesMatch>
+
+# 5. Security headers (the same policy Laravel sends for these pages)
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  <FilesMatch "\.html$">
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' https://www.youtube.com https://s.ytimg.com https://open.spotify.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; frame-src 'self' https:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  <FilesMatch "\.(woff2|png|jpe?g|webp|svg|ico)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+  <FilesMatch "\.(css|js|webmanifest|xml|txt)$">
+    Header set Cache-Control "public, max-age=3600"
+  </FilesMatch>
+</IfModule>
+
+# 6. Compression
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml application/json application/xml text/plain application/manifest+json
+</IfModule>

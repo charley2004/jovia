@@ -175,6 +175,13 @@
       $('gateVerify').hidden = false;
       var link = $('supportLink');
       if (c.supportUrl) { link.href = c.supportUrl; link.hidden = false; }
+      if (c.paymentProofUrl) {
+        $('proofLink').href = c.paymentProofUrl;
+        $('proofLink').hidden = false;
+        var handle = telegramHandle(c.paymentProofUrl);
+        $('proofHandle').textContent = handle ? 'On Telegram: @' + handle + '. Include your name, email and the amount you sent.' : '';
+        $('proofHandle').hidden = !handle;
+      }
       gatePoll = setInterval(function () {
         api.get('/me/overview').then(function (fresh) {
           if (fresh.user.status !== 'AWAITING_VERIFICATION') { state.data = fresh; render(); if (fresh.user.status === 'ACTIVE') toast('Your account is active. Welcome Bonus credited!'); }
@@ -190,11 +197,25 @@
     rej.hidden = !(p && p.status === 'REJECTED');
     if (p && p.status === 'REJECTED') rej.textContent = 'We could not verify your last payment' + (p.adminNote ? ': ' + p.adminNote : '.') + ' Please check the details and submit again.';
     if (!$('senderName').value) $('senderName').value = u.firstName + ' ' + u.lastName;
+    $('proofHint').hidden = !c.paymentProofUrl;
+  }
+
+  // "https://t.me/Some_Name" → "Some_Name"
+  function telegramHandle(url) {
+    var m = /^https?:\/\/(?:t\.me|telegram\.me)\/([A-Za-z0-9_]{4,})\/?$/.exec(url || '');
+    return m ? m[1] : '';
   }
 
   bindForm($('payForm'), function () {
     return api.post('/me/payments', { senderName: $('senderName').value, reference: $('payRef').value }).then(function () {
-      toast('Payment details received. We\'ll verify it shortly.');
+      var proof = state.data.config.paymentProofUrl;
+      if (!proof) {
+        toast('Payment details received. We\'ll verify it shortly.');
+        return load();
+      }
+      // Send them straight to Telegram to drop their receipt; the dashboard shows "verifying" when they come back
+      toast('Payment details received. Opening Telegram so you can send your receipt…');
+      setTimeout(function () { window.location.href = proof; }, 1500);
       return load();
     });
   });

@@ -47,10 +47,19 @@ publish_web_root() {
     cat > "$WEB_ROOT/index.php" <<EOF
 <?php
 
-// Jovia Network: the app lives in $REPO_DIR (outside the web root); every request goes to Laravel.
+// Jovia Network: the app lives in $REPO_DIR (outside the web root); /api, /admin and uploads go to Laravel.
 require '$APP_DIR/public/index.php';
 EOF
-    cp "$APP_DIR/public/.htaccess" "$WEB_ROOT/.htaccess"
+    cp "$APP_DIR/deploy/web-root.htaccess" "$WEB_ROOT/.htaccess"
+    # Website files are served straight from the web root, so pages, CSS, images and fonts never start PHP
+    for f in "$REPO_DIR"/*.html "$REPO_DIR"/robots.txt "$REPO_DIR"/sitemap.xml "$REPO_DIR"/site.webmanifest "$REPO_DIR"/favicon.svg "$REPO_DIR"/favicon.ico; do
+        [ -f "$f" ] && cp "$f" "$WEB_ROOT/"
+    done
+    for dir in css js images fonts games blog; do
+        rm -rf "$WEB_ROOT/$dir"
+        cp -R "$REPO_DIR/$dir" "$WEB_ROOT/$dir"
+    done
+    # Filament's admin CSS/JS live next to the site's own css/ and js/
     for kind in css js; do
         rm -rf "$WEB_ROOT/$kind/filament"
         mkdir -p "$WEB_ROOT/$kind"

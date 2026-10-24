@@ -140,6 +140,8 @@ input[type="range"] { width: 100%; accent-color: var(--gold); }
 .form-error:empty { display: none; }
 .hint { color: var(--text-3); font-size: 13px; margin: -4px 0 12px; }
 .app-form .hint:last-child { margin: 14px 0 0; }
+.hint.center { text-align: center; margin: 12px 0 0; }
+#proofLink { gap: 8px; margin-bottom: 4px; }
 .info-list { display: grid; grid-template-columns: auto 1fr; gap: 8px 16px; margin: 6px 0 18px; font-size: 14px; }
 .info-list dt { color: var(--text-3); }
 .info-list dd { overflow-wrap: anywhere; }

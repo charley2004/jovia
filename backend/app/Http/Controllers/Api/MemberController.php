@@ -66,6 +66,7 @@ class MemberController extends Controller
                 'usdToNgn' => $s['usdToNgn'],
                 'bank' => ['bankName' => $s['activationBankName'], 'accountName' => $s['activationAccountName'], 'accountNumber' => $s['activationAccountNumber']],
                 'supportUrl' => $s['supportUrl'],
+                'paymentProofUrl' => $s['paymentProofUrl'],
                 'supportEmail' => $s['supportEmail'],
             ],
         ]);

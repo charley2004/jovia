@@ -14,8 +14,8 @@
   <link rel="shortcut icon" href="favicon.ico">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
-  <link rel="preload" href="fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/outfit.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/dashboard.css">
 </head>
@@ -92,6 +92,7 @@
       <div class="app-field"><label for="payRef">Transfer reference (optional)</label><input id="payRef" maxlength="120"></div>
       <p class="form-error" role="alert"></p>
       <button type="submit" class="btn btn-primary btn-block">I've made the transfer</button>
+      <p class="hint center" id="proofHint" hidden>Next, we'll open Telegram so you can send your transfer receipt to our verification team.</p>
     </form>
   </section>
 
@@ -107,7 +108,9 @@
       <li class="now">Manual verification</li>
       <li>Account activated — Welcome Bonus credited</li>
     </ol>
-    <a class="btn btn-outline btn-block" id="supportLink" target="_blank" rel="noopener" hidden>Send your receipt to support</a>
+    <a class="btn btn-primary btn-block" id="proofLink" target="_blank" rel="noopener" hidden><svg class="icon"><use href="#i-send"/></svg><span>Send your payment proof on Telegram</span></a>
+    <p class="hint center" id="proofHandle" hidden></p>
+    <a class="btn btn-outline btn-block" id="supportLink" target="_blank" rel="noopener" hidden>Contact support</a>
     <div class="gate-links">
       <button type="button" class="link-btn" id="cancelPayBtn">I haven't paid yet — go back</button>
       <button type="button" class="link-btn" id="refundBtn">Request a refund</button>

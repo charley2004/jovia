@@ -47,19 +47,25 @@ php artisan serve             # http://localhost:8000  ·  admin: http://localho
 
 Tests: create an empty `jovia_test` MySQL database, then `php artisan test`.
 
-## Deploy on HostAfrica (cPanel, no SSH needed)
+## Deploy on HostAfrica (DirectAdmin, via GitHub)
 
-The app lives in `~/jovia` (outside the web root). `public_html` only holds a small `index.php` that forwards to Laravel, the `.htaccess`, and Filament's `css/filament` + `js/filament` assets.
+Layout on the server:
 
-1. cPanel → **Select PHP Version**: PHP 8.2 or newer, with `intl`, `pdo_mysql`, `mbstring`, `fileinfo`, `openssl`, `curl` enabled.
-2. cPanel → **MySQL Databases**: create a database and user, give the user ALL PRIVILEGES. phpMyAdmin → import `jovia-database.sql` (tables, task modules, settings and the admin account).
-3. File Manager → upload `jovia-deploy.zip` to the home folder (one level *above* `public_html`) and extract it. Delete HostAfrica's default `public_html/index.html` if present.
-4. Edit `~/jovia/backend/.env`: the `DB_*` lines (cPanel prefixes names with your username).
-5. cPanel → **SSL/TLS Status**: run AutoSSL for `joviaplatform.ng` and `www.joviaplatform.ng`.
-6. cPanel → **Cron Jobs**, every minute: `/usr/local/bin/php /home/CPANELUSER/jovia/backend/artisan schedule:run >/dev/null 2>&1`
-7. Sign in at `/admin` and fill in **Settings**.
+- `~/domains/joviaplatform.ng/app`: this repository (`git clone https://github.com/charley2004/jovia.git app`)
+- `~/domains/joviaplatform.ng/public_html`: the web root, written by the deploy scripts. It holds the website files (HTML, CSS, JS, images, fonts, games, blog), served directly by the web server without PHP; Filament's `css/filament` and `js/filament`; the `.htaccess` from `backend/deploy/web-root.htaccess`; and a small `index.php` that hands `/api`, `/admin`, `/sanctum`, `/livewire` and `/storage` to Laravel.
 
-Marketplace photos are served by Laravel at `/storage/...`, so no storage symlink is required. After a Filament upgrade, copy `backend/public/css/filament` and `js/filament` into `public_html` again.
+First time, in DirectAdmin → Terminal (PHP 8.2+, database created in MySQL Management):
+
+```bash
+cd ~/domains/joviaplatform.ng && git clone https://github.com/charley2004/jovia.git app
+DB_NAME=… DB_USER=… DB_PASS='…' bash app/backend/deploy/setup.sh
+```
+
+It installs packages, writes `.env`, migrates and seeds, publishes the web root and prints a temporary admin password plus the cron line (every minute: `php …/artisan schedule:run`).
+
+After every push: `bash ~/domains/joviaplatform.ng/app/backend/deploy/update.sh` (pull, packages, migrations, web root, caches). Run it again after editing `.env`.
+
+Marketplace photos are served by Laravel at `/storage/...`, so no storage symlink is required.
 
 ## Deploy (other hosts with SSH)
 

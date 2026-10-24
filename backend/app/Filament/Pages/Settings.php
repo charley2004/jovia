@@ -47,6 +47,8 @@ class Settings extends Page implements HasForms
                     TextInput::make('activationAccountName')->label('Account name')->maxLength(120),
                     TextInput::make('activationAccountNumber')->label('Account number')->maxLength(32),
                 ]),
+                TextInput::make('paymentProofUrl')->label('Payment proof link (Telegram)')->url()->maxLength(300)
+                    ->helperText('After a member presses "I\'ve made the transfer" they are sent here to drop their receipt.'),
             ]),
             Section::make('Rewards')->schema([
                 Grid::make(2)->schema([

@@ -27,6 +27,8 @@ class Settings
         'activationAccountName' => '',
         'activationAccountNumber' => '',
         'supportUrl' => '',
+        // Members send their transfer receipt here after pressing "I've made the transfer"
+        'paymentProofUrl' => 'https://t.me/Nextel_Registration',
         'supportEmail' => '',
     ];
 

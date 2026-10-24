@@ -43,16 +43,20 @@ class SiteController extends Controller
             abort(404);
         }
 
-        $response = new BinaryFileResponse($file, 200, ['Content-Type' => self::TYPES[$ext]]);
+        $response = new BinaryFileResponse($file, 200, ['Content-Type' => self::TYPES[$ext]], true, null, true, true);
         $response->headers->set('X-Content-Type-Options', 'nosniff');
         $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
         if ($ext === 'html') {
             $response->headers->set('Content-Security-Policy', self::CSP);
             $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
             $response->headers->set('Cache-Control', 'no-cache');
+        } elseif (in_array($ext, ['woff2', 'png', 'jpg', 'jpeg', 'webp', 'svg', 'ico'], true)) {
+            $response->headers->set('Cache-Control', 'public, max-age=2592000'); // fonts and images: 30 days
         } else {
             $response->headers->set('Cache-Control', 'public, max-age=3600');
         }
+        // Unchanged since the browser's copy (ETag / Last-Modified): answer 304 with no body
+        $response->isNotModified($request);
 
         return $response;
     }

@@ -1,3 +1,11 @@
+/* Stop other sites from showing this page inside a frame (clickjacking); same-site frames are fine */
+(function () {
+  if (window.top === window.self) return;
+  try { if (window.top.location.origin === window.location.origin) return; } catch (e) { /* cross-site parent */ }
+  document.documentElement.style.display = 'none';
+  window.top.location = window.location.href;
+})();
+
 /* Jovia Network — API client shared by the auth pages and the dashboard.
    Talks to the Laravel backend on this domain (/api) using its session cookie.
    Laravel needs a CSRF token on every change: it is read from the XSRF-TOKEN

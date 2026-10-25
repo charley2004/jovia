@@ -1,3 +1,11 @@
+/* Stop other sites from showing this page inside a frame (clickjacking); same-site frames are fine */
+(function () {
+  if (window.top === window.self) return;
+  try { if (window.top.location.origin === window.location.origin) return; } catch (e) { /* cross-site parent */ }
+  document.documentElement.style.display = 'none';
+  window.top.location = window.location.href;
+})();
+
 /* Jovia Network — landing page interactions */
 (function () {
   'use strict';

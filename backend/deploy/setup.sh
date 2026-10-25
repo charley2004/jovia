@@ -41,11 +41,11 @@ FILESYSTEM_DISK=local
 # Emails (password resets, notifications). "log" = off. Use a DirectAdmin mailbox to switch on.
 MAIL_MAILER=log
 MAIL_HOST=mail.joviaplatform.ng
-MAIL_PORT=465
-MAIL_SCHEME=smtps
-MAIL_USERNAME=no-reply@joviaplatform.ng
+MAIL_PORT=587
+MAIL_SCHEME=smtp
+MAIL_USERNAME=noreply@joviaplatform.ng
 MAIL_PASSWORD=
-MAIL_FROM_ADDRESS="no-reply@joviaplatform.ng"
+MAIL_FROM_ADDRESS="noreply@joviaplatform.ng"
 MAIL_FROM_NAME="Jovia Network"
 
 # Free key from aistudio.google.com (the Assistant tab stays off until set)

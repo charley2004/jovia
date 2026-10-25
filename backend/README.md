@@ -71,8 +71,8 @@ Marketplace photos are served by Laravel at `/storage/...`, so no storage symlin
 
 Nothing is emailed until a mail account is connected. Activation reminders wait until then, so nobody's reminders are used up.
 
-1. DirectAdmin → E-Mail Accounts: create `no-reply@joviaplatform.ng` (the domain's SPF, DKIM and DMARC records are already set by HostAfrica; DMARC is `p=reject`, so always send from a `@joviaplatform.ng` address through this server).
-2. In `~/domains/joviaplatform.ng/app/backend/.env` set `MAIL_MAILER=smtp` and `MAIL_PASSWORD="…"` (host `mail.joviaplatform.ng`, port 465, `smtps` are already filled in), then run `update.sh`.
+1. DirectAdmin → E-Mail Accounts: create `noreply@joviaplatform.ng` (the domain's SPF, DKIM and DMARC records are already set by HostAfrica; DMARC is `p=reject`, so always send from a `@joviaplatform.ng` address through this server).
+2. In `~/domains/joviaplatform.ng/app/backend/.env` set `MAIL_MAILER=smtp` and `MAIL_PASSWORD="…"` (host `mail.joviaplatform.ng`, port 587 are already filled in), then run `update.sh`.
 3. Test: `php artisan jovia:test-mail you@example.com`.
 
 Activation reminders go to members who signed up but never paid, 1 hour, 1 day, 3 days and 7 days after sign-up (at most 50 per 15-minute run), and stop when they activate, unsubscribe or request a refund. Switch them off in Admin → Settings → Emails; the Members list shows how many each member has had and can send the next one by hand. Replies go to the Support email in Settings.

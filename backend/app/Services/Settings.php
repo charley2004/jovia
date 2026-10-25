@@ -23,6 +23,8 @@ class Settings
         'autoReleaseDays' => 7,
         'marketplaceFeePercent' => 0,
         'assistantDailyLimit' => 40,
+        // Reminder emails to members who signed up but never activated (needs a mail account in .env)
+        'activationReminders' => true,
         'activationBankName' => '',
         'activationAccountName' => '',
         'activationAccountNumber' => '',

@@ -2,11 +2,13 @@
 
 namespace App\Filament\Pages;
 
+use App\Services\ActivationReminders;
 use App\Services\Settings as SettingsStore;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
@@ -70,6 +72,12 @@ class Settings extends Page implements HasForms
                 ]),
             ]),
             Section::make('AI Assistant')->schema([$number('assistantDailyLimit', 'Messages per member per day')]),
+            Section::make('Emails')->description(ActivationReminders::mailerConfigured()
+                ? 'Mail account connected: emails are being sent.'
+                : 'No mail account connected yet (MAIL_ lines in .env), so no emails go out. Nothing is marked as sent until it is.')->schema([
+                Toggle::make('activationReminders')->label('Activation reminders')
+                    ->helperText('Emails members who signed up but never activated: 1 hour, 1 day, 3 days and 7 days after sign-up. Stops when they activate, unsubscribe or ask for a refund.'),
+            ]),
             Section::make('Support')->schema([
                 Grid::make(2)->schema([
                     TextInput::make('supportUrl')->label('Support link (Telegram / WhatsApp)')->url()->maxLength(300),
@@ -89,7 +97,9 @@ class Settings extends Page implements HasForms
         $data = $this->form->getState();
         foreach ($data as $key => $value) {
             $default = SettingsStore::DEFAULTS[$key] ?? null;
-            if (is_array($default)) {
+            if (is_bool($default)) {
+                $data[$key] = (bool) $value;
+            } elseif (is_array($default)) {
                 $data[$key] = array_values(array_map('intval', (array) $value));
             } elseif (is_int($default)) {
                 $data[$key] = (int) $value;

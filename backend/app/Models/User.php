@@ -23,6 +23,9 @@ class User extends Authenticatable implements FilamentUser, HasName
             'password' => 'hashed',
             'activated_at' => 'datetime',
             'balance' => 'integer',
+            'last_activation_reminder_at' => 'datetime',
+            'activation_reminders_sent' => 'integer',
+            'email_opt_out' => 'boolean',
         ];
     }
 

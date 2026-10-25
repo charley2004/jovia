@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Mail\ActivationReminder;
 use App\Models\ContentItem;
 use App\Models\Listing;
 use App\Models\Order;
@@ -10,12 +11,15 @@ use App\Models\TaskModule;
 use App\Models\TaskSession;
 use App\Models\User;
 use App\Models\Withdrawal;
+use App\Services\ActivationReminders;
 use App\Services\AdminActions;
 use App\Services\Orders;
+use App\Services\Settings;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -339,6 +343,66 @@ class JoviaApiTest extends TestCase
         $this->get('/blog/is-jovia-network-legit')->assertOk();
         $this->get('/fonts/inter.woff2')->assertOk()->assertHeader('Content-Type', 'font/woff2');
         $this->assertStringNotContainsString('fonts.googleapis', $this->get('/')->headers->get('Content-Security-Policy'));
+    }
+
+    public function test_activation_reminder_emails(): void
+    {
+        Mail::fake();
+        $u = $this->signup();
+
+        // No mail account yet: nothing is sent and nobody's reminders are used up
+        $this->travel(2)->hours();
+        $this->assertNotNull(ActivationReminders::run()['skipped']);
+        $this->assertSame(0, $u->fresh()->activation_reminders_sent);
+
+        config(['mail.default' => 'smtp']);
+        $this->assertSame(1, ActivationReminders::run()['sent']);                  // 1 hour after sign-up
+        Mail::assertSent(ActivationReminder::class, fn ($m) => $m->step === 1 && $m->hasTo($u->email));
+        $this->assertSame(0, ActivationReminders::run()['sent']);                  // not twice in a row
+        $this->travel(23)->hours();
+        $this->assertSame(1, ActivationReminders::run()['sent']);                  // 1 day
+        Mail::assertSent(ActivationReminder::class, fn ($m) => $m->step === 2);
+
+        // Every email renders, with an unsubscribe link and the one-click header
+        foreach ([1, 2, 3, 4] as $step) {
+            $mail = new ActivationReminder($u->fresh(), $step);
+            $this->assertStringContainsString('/email/unsubscribe/', $mail->render());
+            $this->assertSame('List-Unsubscribe=One-Click', $mail->headers()->text['List-Unsubscribe-Post']);
+        }
+
+        // Activating stops the reminders
+        $this->activate($u);
+        $this->travel(3)->days();
+        $this->assertSame(0, ActivationReminders::run()['sent']);
+
+        // Unsubscribe link (signed) and the mail app's one-click POST
+        $v = $this->signup();
+        $w = $this->signup();
+        $this->get('/email/unsubscribe/'.$v->id)->assertForbidden();               // unsigned link refused
+        $this->get(ActivationReminder::unsubscribeUrl($v))->assertOk()->assertSee('unsubscribed');
+        $this->post(ActivationReminder::unsubscribeUrl($w))->assertNoContent();     // no CSRF token needed
+        $this->assertTrue($v->fresh()->email_opt_out && $w->fresh()->email_opt_out);
+
+        // Refund requested: no reminders. Switched off in Settings: none at all.
+        $x = $this->signup();
+        $this->actingAs($x)->postJson('/api/me/payments', ['senderName' => 'X Payer'])->assertCreated();
+        $this->actingAs($x)->postJson('/api/me/payments/refund', ['reason' => 'changed my mind'])->assertOk();
+        $y = $this->signup();
+        $this->travel(2)->hours();
+        $this->assertSame(1, ActivationReminders::run()['sent']);                  // only $y
+        Mail::assertSent(ActivationReminder::class, fn ($m) => $m->hasTo($y->email));
+        Mail::assertNotSent(ActivationReminder::class, fn ($m) => $m->hasTo($x->email) || $m->hasTo($v->email) || $m->hasTo($w->email));
+        Settings::save(['activationReminders' => false]);
+        $this->travel(1)->days();
+        $this->assertNotNull(ActivationReminders::run()['skipped']);
+
+        // At most 4 reminders in total
+        Settings::save(['activationReminders' => true]);
+        foreach (range(1, 10) as $i) {
+            $this->travel(1)->days();
+            ActivationReminders::run();
+        }
+        $this->assertSame(4, $y->fresh()->activation_reminders_sent);
     }
 
     public function test_contact_form_saves_messages_for_the_admin(): void

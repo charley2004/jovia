@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Support\Act;
 use App\Models\User;
+use App\Services\ActivationReminders;
 use App\Services\AdminActions;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -45,6 +46,13 @@ class UserResource extends Resource
                 TextColumn::make('balance')->formatStateUsing(fn ($state) => Act::naira($state))->sortable(),
                 TextColumn::make('role')->badge()->color(fn (string $state) => $state === 'ADMIN' ? 'primary' : 'gray')->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')->label('Joined')->date()->sortable(),
+                TextColumn::make('activation_reminders_sent')->label('Reminders')->toggleable()
+                    ->formatStateUsing(fn (int $state, User $u) => match (true) {
+                        $u->email_opt_out => 'Unsubscribed',
+                        $u->status !== 'PENDING_PAYMENT' && $state === 0 => '—',
+                        default => "{$state} of ".count(ActivationReminders::SCHEDULE),
+                    })
+                    ->description(fn (User $u) => $u->last_activation_reminder_at ? 'Last '.$u->last_activation_reminder_at->diffForHumans() : null),
             ])
             ->filters([
                 SelectFilter::make('status')->options([
@@ -63,6 +71,22 @@ class UserResource extends Resource
                     ])
                     ->action(fn (User $u, array $data) => Act::run(fn () => AdminActions::activateManually($u, $data['sender'], $data['reference'] ?? null), 'Member activated')),
                 ActionGroup::make([
+                    Action::make('remind')->label('Send activation reminder')->icon('heroicon-o-envelope')
+                        ->visible(fn (User $u) => $u->role !== 'ADMIN' && $u->status === 'PENDING_PAYMENT' && ! $u->email_opt_out)
+                        ->requiresConfirmation()
+                        ->modalDescription(fn (User $u) => ActivationReminders::mailerConfigured()
+                            ? "Emails {$u->email} the next activation reminder now."
+                            : 'No mail account is connected yet, so this email cannot be sent.')
+                        ->action(function (User $u) {
+                            if (! ActivationReminders::mailerConfigured()) {
+                                Notification::make()->danger()->title('No mail account connected')->body('Fill in the MAIL_ lines in .env, then run update.sh.')->send();
+
+                                return;
+                            }
+                            ActivationReminders::sendTo($u)
+                                ? Notification::make()->success()->title('Reminder sent')->send()
+                                : Notification::make()->danger()->title('The email could not be sent')->body('Check the mail settings in .env.')->send();
+                        }),
                     Action::make('suspend')->icon('heroicon-o-no-symbol')->color('danger')
                         ->visible(fn (User $u) => $u->role !== 'ADMIN' && $u->status !== 'SUSPENDED')
                         ->requiresConfirmation()->modalDescription('They will be signed out and blocked until you restore them.')

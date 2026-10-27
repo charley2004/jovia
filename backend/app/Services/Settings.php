@@ -31,7 +31,7 @@ class Settings
         'supportUrl' => '',
         // Members send their transfer receipt here after pressing "I've made the transfer"
         'paymentProofUrl' => 'https://t.me/Jovia_Registration',
-        'supportEmail' => 'joviaplatform@gmail.com',
+        'supportEmail' => 'support@joviaplatform.ng',
     ];
 
     public static function all(): array

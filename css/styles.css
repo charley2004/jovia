@@ -480,6 +480,9 @@ h1, h2, h3, h4 { font-family: var(--ff-head); font-weight: 700; line-height: 1.1
 .footer-top { display: grid; gap: 40px; }
 @media (min-width: 900px) { .footer-top { grid-template-columns: 1fr auto; } }
 .footer-tag { color: var(--text-2); margin-top: 14px; font-size: 15px; }
+.footer-address { color: var(--text-3); margin-top: 12px; font-size: 14px; font-style: normal; line-height: 1.6; }
+.footer-address a { color: var(--text-2); transition: color .2s; }
+.footer-address a:hover { color: var(--gold-light); }
 .footer-cols { display: grid; grid-template-columns: repeat(3, auto); gap: 32px 72px; justify-content: start; }
 @media (max-width: 480px) { .footer-cols { grid-template-columns: repeat(2, 1fr); } }
 .footer-cols h4 { font-size: 15px; font-weight: 600; margin-bottom: 14px; letter-spacing: 0; }

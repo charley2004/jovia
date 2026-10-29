@@ -501,3 +501,12 @@ h1, h2, h3, h4 { font-family: var(--ff-head); font-weight: 700; line-height: 1.1
   .reveal { opacity: 1; transform: none; }
   html { scroll-behavior: auto; }
 }
+
+/* Link to the long-form guide */
+.hero-guide { display: inline-block; margin-top: 16px; color: var(--gold); font-weight: 600; font-size: 15px; }
+.hero-guide:hover { color: var(--gold-light); text-decoration: underline; }
+
+/* Faster first paint on phones: sections below the first screen are laid out only when scrolled near.
+   main.js adds .cv-off before jumping to a #section link so the jump lands exactly. */
+.section, .explore { content-visibility: auto; contain-intrinsic-size: auto 900px; }
+.cv-off .section, .cv-off .explore { content-visibility: visible; }

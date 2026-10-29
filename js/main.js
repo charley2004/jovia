@@ -24,6 +24,32 @@
     menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
   }
 
+  // ── Section links (#earnings, #faq …) ──
+  // Sections below the first screen skip layout until needed (content-visibility in styles.css),
+  // so lay out the whole page first; otherwise the jump lands in the wrong place.
+  const jumpTo = (hash) => {
+    const target = hash && hash.length > 1 && document.getElementById(decodeURIComponent(hash.slice(1)));
+    if (!target) return false;
+    document.documentElement.classList.add('cv-off');
+    requestAnimationFrame(() => target.scrollIntoView());
+    return true;
+  };
+  if (location.hash) {
+    jumpTo(location.hash);
+    window.addEventListener('load', () => jumpTo(location.hash), { once: true });
+  }
+  window.addEventListener('hashchange', () => jumpTo(location.hash));
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href*="#"]');
+    if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    const url = new URL(a.href, location.href);
+    if (url.origin !== location.origin || url.pathname !== location.pathname || !url.hash) return;
+    if (jumpTo(url.hash)) {
+      e.preventDefault();
+      history.pushState(null, '', url.hash);
+    }
+  });
+
   // ── FAQ accordion (one open at a time) ──
   const items = document.querySelectorAll('.faq-item');
   items.forEach((item) => {

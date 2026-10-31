@@ -66,6 +66,7 @@ fi
 ADMIN_EMAIL="$ADMIN" "$PHP" artisan db:seed --force
 publish_web_root
 optimize
+check_live || true
 
 echo
 echo "✔ Setup finished. Next:"

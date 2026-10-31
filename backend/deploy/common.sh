@@ -69,6 +69,21 @@ EOF
     chmod -R u+rwX storage bootstrap/cache
 }
 
+# After a deploy: the API must answer through the web root, or sign-in and sign-up fail.
+# (A wrong public_html/.htaccess once sent every /api request to Apache's 404 page.)
+check_live() {
+    local url="${APP_URL_CHECK:-https://joviaplatform.ng}/api/health"
+    local body
+    body=$("$PHP" -r '$c = stream_context_create(["http" => ["timeout" => 20]]); echo @file_get_contents($argv[1], false, $c);' "$url" || true)
+    if [ "$body" = '{"ok":true}' ]; then
+        echo "✔ Live check: $url answers — sign-in and sign-up are reachable"
+    else
+        echo "✘ LIVE CHECK FAILED: $url did not answer {\"ok\":true}. Sign-in and sign-up will fail." >&2
+        echo "  Check that $WEB_ROOT/.htaccess matches backend/deploy/web-root.htaccess, then run update.sh again." >&2
+        return 1
+    fi
+}
+
 optimize() {
     "$PHP" artisan optimize:clear >/dev/null
     "$PHP" artisan optimize

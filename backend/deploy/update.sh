@@ -10,3 +10,4 @@ install_packages
 publish_web_root
 optimize
 echo "✔ Updated to $(git -C "$REPO_DIR" log -1 --format='%h %s')"
+check_live

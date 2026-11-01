@@ -105,8 +105,8 @@
         "@id": "https://joviaplatform.ng/#website"
       },
       "inLanguage": "en-NG",
-      "offers": {
-        "@id": "https://joviaplatform.ng/#activation-offer"
+      "mainEntity": {
+        "@id": "https://joviaplatform.ng/#jovia-membership"
       }
     },
     {
@@ -127,21 +127,66 @@
       ]
     },
     {
-      "@type": "Offer",
-      "@id": "https://joviaplatform.ng/#activation-offer",
-      "name": "Jovia Network membership activation",
-      "description": "One-time ₦15,000 activation that unlocks every task module, the marketplace and the Friday Bonus, and adds a ₦15,000 Welcome Smash Bonus to the member's wallet. No monthly fees. Fully refundable if the account is never activated.",
-      "price": "15000",
-      "priceCurrency": "NGN",
+      "@type": "Product",
+      "@id": "https://joviaplatform.ng/#jovia-membership",
+      "name": "Jovia Network Membership — One-Time Activation",
+      "description": "One-time ₦15,000 activation for the Jovia Network Platform. Unlocks every task module (videos, music and games, up to ₦12,000 a day), the Jovia Marketplace and the weekly Friday Bonus, and adds a ₦15,000 Welcome Smash Bonus to your wallet. No monthly fees. Fully refunded if your account is never activated.",
+      "image": [
+        "https://joviaplatform.ng/images/jovia-network-platform-earn-cash-rewards-nigeria.jpg",
+        "https://joviaplatform.ng/images/icon-512.png"
+      ],
+      "brand": {
+        "@type": "Brand",
+        "name": "Jovia Network"
+      },
+      "sku": "JOVIA-ACTIVATION",
       "category": "Membership",
       "url": "https://joviaplatform.ng/signup.html",
-      "availability": "https://schema.org/InStock",
-      "eligibleRegion": {
-        "@type": "Place",
-        "name": "Africa"
-      },
-      "seller": {
-        "@id": "https://joviaplatform.ng/#organization"
+      "offers": {
+        "@type": "Offer",
+        "@id": "https://joviaplatform.ng/#activation-offer",
+        "name": "Jovia Network membership activation",
+        "url": "https://joviaplatform.ng/signup.html",
+        "price": "15000",
+        "priceCurrency": "NGN",
+        "priceValidUntil": "2027-12-31",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "category": "Membership",
+        "eligibleRegion": {
+          "@type": "Place",
+          "name": "Africa"
+        },
+        "seller": {
+          "@id": "https://joviaplatform.ng/#organization"
+        },
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "NGN"
+          },
+          "shippingDestination": {
+            "@type": "DefinedRegion",
+            "addressCountry": "NG"
+          },
+          "deliveryTime": {
+            "@type": "ShippingDeliveryTime",
+            "handlingTime": {
+              "@type": "QuantitativeValue",
+              "minValue": 0,
+              "maxValue": 1,
+              "unitCode": "DAY"
+            },
+            "transitTime": {
+              "@type": "QuantitativeValue",
+              "minValue": 0,
+              "maxValue": 0,
+              "unitCode": "DAY"
+            }
+          }
+        }
       }
     }
   ]
